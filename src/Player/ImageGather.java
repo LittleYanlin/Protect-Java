@@ -3,7 +3,9 @@ import java.awt.Image;
 import java.awt.Toolkit;
 public class ImageGather {
     public static Image[] Background = new Image[]{
-            Toolkit.getDefaultToolkit().getImage("./img/map1.png")
+            Toolkit.getDefaultToolkit().getImage("./img/map1.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/map2.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/map3.png")
     };
     public static Image[] LoadingBackground = new Image[]{
             Toolkit.getDefaultToolkit().getImage("./img/loadingmap.png"),

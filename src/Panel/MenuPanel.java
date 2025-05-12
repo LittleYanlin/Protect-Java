@@ -1,49 +1,58 @@
 package Panel;
 import java.awt.Graphics;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import javax.swing.JPanel;
 import Player.ImageGather;
 import Game.CardSwitcher;
-public class MenuPanel extends JPanel{
-    CardSwitcher cardSwitcher;
-    int m=0,n=0;
+public class MenuPanel extends Panel{
+    int m1=0,n=0,m2=0,m3=0;
     public MenuPanel(CardSwitcher cardSwitcher){
-        this.cardSwitcher = cardSwitcher;//接收回调函数
-        setSize(1200, 800);
-        addMouseListener(new MouseAdapter() {//设置鼠标点击监听器
-            public void mouseClicked(MouseEvent e){
-                handleMouseClicked(e);
-            }
-        });
-        addMouseMotionListener(new MouseMotionAdapter() {//设置鼠标移动监听器
-            public void mouseMoved(MouseEvent e){
-                handleMouseMoved(e);
-            }
-        });
+        super(cardSwitcher);
     }
     public void paint(Graphics g){//重写paint方法
         super.paint(g);
-        g.drawImage(ImageGather.LoadingBackground[0], 0, 0, 1200, 800, this);//背景图
+        g.drawImage(ImageGather.LoadingBackground[0], 0, 0, 1200, 800, this);//背景图 this是指当前组件监听状态
         g.drawImage(ImageGather.Back[n], 10, 10, 100, 100, this);//返回按钮
-        g.drawImage(ImageGather.Mission[m], 300, 510, 45, 75, this);//第一关按钮
+        g.drawImage(ImageGather.Mission[m1], 300, 510, 45, 75, this);//第一关按钮
+        g.drawImage(ImageGather.Mission[m2], 450, 400, 45, 75, this);//第二关按钮
+        g.drawImage(ImageGather.Mission[m3], 300, 317, 45, 75, this);//第三关按钮
     }
-    private void handleMouseClicked(MouseEvent e){
-        if (e.getX()>0&&e.getX()<50&&e.getY()>0&&e.getY()<50){//点击了返回按钮
+    void handleMouseClicked(MouseEvent e){
+        if (e.getX()>0&&e.getX()<100&&e.getY()>0&&e.getY()<100){//点击了返回按钮
             cardSwitcher.switchCard("GAME");
         }
-        if (e.getX()>250&&e.getX()<470&&e.getY()>450&&e.getY()<600) {//点击了第一关按钮
+        if (e.getX()>300&&e.getX()<345&&e.getY()>510&&e.getY()<585) {//点击了第一关按钮
             cardSwitcher.switchCard("GAME1");
         }
+        if (e.getX()>450&&e.getX()<495&&e.getY()>400&&e.getY()<475) {//点击了第二关按钮
+            cardSwitcher.switchCard("GAME2");
+        }
+        if (e.getX()>300&&e.getX()<345&&e.getY()>317&&e.getY()<392) {//点击了第三关按钮
+            cardSwitcher.switchCard("GAME3");
+        }
     }
-    private void handleMouseMoved(MouseEvent e){
-        if (e.getX()>250&&e.getX()<470&&e.getY()>450&&e.getY()<600){//鼠标移动到第一关按钮上
-            m=1;//把图片变为高亮的
+    void handleMouseMoved(MouseEvent e){
+        if (e.getX()>300&&e.getX()<345&&e.getY()>510&&e.getY()<585){//鼠标移动到第一关按钮上
+            m1=1;//把图片变为高亮的
             repaint();//重绘
         }
         else{
-            m=0;
+            m1=0;
+            repaint();
+        }
+        if (e.getX()>450&&e.getX()<495&&e.getY()>400&&e.getY()<475){//鼠标移动到第二关按钮上
+            m2=1;
+            repaint();
+        }
+        else{
+            m2=0;
+            repaint();
+        }
+        if (e.getX()>300&&e.getX()<345&&e.getY()>317&&e.getY()<392){//鼠标移动到第三关按钮上
+            m3=1;
+            repaint();
+        }
+        else{
+            m3=0;
             repaint();
         }
         if (e.getX()>0&&e.getX()<100&&e.getY()>0&&e.getY()<100){//鼠标移动到返回按钮上

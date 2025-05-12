@@ -6,7 +6,6 @@ public class App extends JFrame implements CardSwitcher {
     CardLayout cardLayout = new CardLayout();
     JPanel cardPanel = new JPanel(cardLayout);
     MenuPanel loadingPanel;
-    Mission1 gamePanel1;
     public App() {
         setTitle("保卫JAVA");
         setSize(1200, 800);
@@ -15,9 +14,10 @@ public class App extends JFrame implements CardSwitcher {
         setLocationRelativeTo(null);//设置窗口居中
         setLayout(new BorderLayout());//设置布局为BorderLayout
         loadingPanel = new MenuPanel(this);
-        gamePanel1= new Mission1(this);
         cardPanel.add(loadingPanel, "LOADING");
-        cardPanel.add(gamePanel1, "GAME1");
+        cardPanel.add(new Mission1(this), "GAME1");
+        cardPanel.add(new Mission2(this), "GAME2");
+        cardPanel.add(new Mission3(this), "GAME3");
         add(cardPanel, BorderLayout.CENTER);//将卡片面板添加到窗口中
         cardLayout.show(cardPanel, "LOADING");
     }
