@@ -7,6 +7,7 @@ public class MenuPanel extends Panel{
     int m1=0,n=0,m2=0,m3=0;
     public MenuPanel(CardSwitcher cardSwitcher){
         super(cardSwitcher);
+        super.gameTimer.start();
     }
     public void paint(Graphics g){//重写paint方法
         super.paint(g);
@@ -33,35 +34,27 @@ public class MenuPanel extends Panel{
     void handleMouseMoved(MouseEvent e){
         if (e.getX()>300&&e.getX()<345&&e.getY()>510&&e.getY()<585){//鼠标移动到第一关按钮上
             m1=1;//把图片变为高亮的
-            repaint();//重绘
         }
         else{
             m1=0;
-            repaint();
         }
         if (e.getX()>450&&e.getX()<495&&e.getY()>400&&e.getY()<475){//鼠标移动到第二关按钮上
             m2=1;
-            repaint();
         }
         else{
             m2=0;
-            repaint();
         }
         if (e.getX()>300&&e.getX()<345&&e.getY()>317&&e.getY()<392){//鼠标移动到第三关按钮上
             m3=1;
-            repaint();
         }
         else{
             m3=0;
-            repaint();
         }
         if (e.getX()>0&&e.getX()<100&&e.getY()>0&&e.getY()<100){//鼠标移动到返回按钮上
             n=1;
-            repaint();
         }
         else{
             n=0;
-            repaint();
         }
     }
 }

@@ -21,11 +21,9 @@ public class Mission2 extends Panel{
     void handleMouseMoved(MouseEvent e) {
         if (e.getX()>0&&e.getX()<100&&e.getY()>0&&e.getY()<100){
             m=1;
-            repaint();
         }
         else{
             m=0;
-            repaint();
         }
     }
 }

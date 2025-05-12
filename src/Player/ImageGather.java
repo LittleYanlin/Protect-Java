@@ -5,7 +5,8 @@ public class ImageGather {
     public static Image[] Background = new Image[]{
             Toolkit.getDefaultToolkit().getImage("./img/map1.png"),
             Toolkit.getDefaultToolkit().getImage("./img/map2.png"),
-            Toolkit.getDefaultToolkit().getImage("./img/map3.png")
+            Toolkit.getDefaultToolkit().getImage("./img/map3.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/nullTower.png"),
     };
     public static Image[] LoadingBackground = new Image[]{
             Toolkit.getDefaultToolkit().getImage("./img/loadingmap.png"),
@@ -17,5 +18,9 @@ public class ImageGather {
     public static Image[] Back = new Image[]{
             Toolkit.getDefaultToolkit().getImage("./img/back1.png"),
             Toolkit.getDefaultToolkit().getImage("./img/back2.png"),
+    };
+    public static Image[] ArrayTower = new Image[]{
+            Toolkit.getDefaultToolkit().getImage("./img/arrowTower1.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/arrowTower2.png"),
     };
 }
