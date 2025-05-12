@@ -3,7 +3,7 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import Player.ImageGather;
 import Game.CardSwitcher;
-public class Mission3 extends Panel{
+public class Mission3 extends GamePanel{
     int m=0;
     public Mission3(CardSwitcher cardSwitcher){
         super(cardSwitcher);
