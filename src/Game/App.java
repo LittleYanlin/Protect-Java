@@ -8,7 +8,7 @@ public class App extends JFrame implements CardSwitcher {
     MenuPanel loadingPanel;
     public App() {
         setTitle("保卫JAVA");
-        setSize(1200, 800);
+        setSize(1200, 840);//设置窗口大小
         setResizable(false);//设置窗口不可缩放
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//设置关闭窗口时退出程序
         setLocationRelativeTo(null);//设置窗口居中
