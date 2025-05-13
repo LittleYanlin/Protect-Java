@@ -2,7 +2,8 @@ package Panel;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import Player.ImageGather;
-import Player.Tower;
+import Tower.Tower;
+import Tower.ArrayTower;
 import Game.CardSwitcher;
 public class Mission1 extends GamePanel{
     boolean isBuilding=false;
@@ -20,12 +21,15 @@ public class Mission1 extends GamePanel{
         g.drawImage(ImageGather.Background[0], 0, 0, 1200, 800, this);//背景图
         g.drawImage(ImageGather.Back[m], 10, 10, 100, 100, this);//返回按钮
         for(int i=0;i<towers.length;i++){
-            if(towers[i].getLevel()==0){
+            if(towers[i].getTowerType()==0){
                 g.drawImage(ImageGather.NullTower[MouseMoveToTower[0]], towers[i].getX(), towers[i].getY(), 127, 100, this);
+            }
+            else if(towers[i].getTowerType()==1){
+                g.drawImage(ImageGather.ArrayTower[MouseMoveToTower[0]], towers[i].getX(), towers[i].getY(), 127, 100, this);
             }
         }
         if (isBuilding){
-            g.drawImage(ImageGather.ArrayTower[MouseMoveToBuilding[0]], 877, 716, 55, 80, this);
+            g.drawImage(ImageGather.BuildArrayTower[MouseMoveToBuilding[0]], 877, 716, 55, 80, this);
         }
     }
     void handleMouseClicked(MouseEvent e){
@@ -44,6 +48,13 @@ public class Mission1 extends GamePanel{
         if(!clickBuilding){
             isBuilding=false;
             buildingnum=-1;
+        }
+        if(isBuilding&&e.getX()>877&&e.getX()<932&&e.getY()>716&&e.getY()<796){//点击了建造按钮
+            if (towers[buildingnum].getLevel()==0){
+                towers[buildingnum]=new ArrayTower(towers[buildingnum].getX(),towers[buildingnum].getY());
+                towers[buildingnum].setLevel(1);
+                isBuilding=false;
+            }
         }
     }
     void handleMouseMoved(MouseEvent e) {

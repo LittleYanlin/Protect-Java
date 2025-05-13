@@ -18,12 +18,16 @@ public class ImageGather {
             Toolkit.getDefaultToolkit().getImage("./img/back1.png"),
             Toolkit.getDefaultToolkit().getImage("./img/back2.png"),
     };
-    public static Image[] ArrayTower = new Image[]{
-            Toolkit.getDefaultToolkit().getImage("./img/arrowTower1.png"),
-            Toolkit.getDefaultToolkit().getImage("./img/arrowTower2.png"),
+    public static Image[] BuildArrayTower = new Image[]{
+            Toolkit.getDefaultToolkit().getImage("./img/buildArrowTower1.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/buildArrowTower2.png"),
     };
     public static Image[] NullTower = new Image[]{
             Toolkit.getDefaultToolkit().getImage("./img/nullTower1.png"),
             Toolkit.getDefaultToolkit().getImage("./img/nullTower2.png"),
+    };
+    public static Image[] ArrayTower = new Image[]{
+            Toolkit.getDefaultToolkit().getImage("./img/arrowTower1.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/arrowTower2.png"),
     };
 }
