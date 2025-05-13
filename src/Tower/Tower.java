@@ -1,6 +1,6 @@
-package Player;
+package Tower;
 public class Tower {
-    int x,y,level=0;
+    int x,y,level=0,attackDealy,attackRange,attackDamage,pastAttack;
     public Tower(int x,int y){
         this.x=x;
         this.y=y;
@@ -14,5 +14,11 @@ public class Tower {
     }
     public int getY(){
         return y;
+    }
+    public void setLevel(int level){
+        this.level=level;
+    }
+    public int getTowerType(){
+        return 0;
     }
 }

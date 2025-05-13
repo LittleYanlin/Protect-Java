@@ -1,6 +1,6 @@
 package Panel;
 import Game.CardSwitcher;
-import Player.Tower;
+import Tower.Tower;
 public class GamePanel extends Panel{
     boolean isBuilding=false,isStart=false;
     Tower[] towers;
