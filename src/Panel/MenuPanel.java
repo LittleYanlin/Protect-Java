@@ -7,7 +7,6 @@ public class MenuPanel extends Panel{
     int m1=0,n=0,m2=0,m3=0;
     public MenuPanel(CardSwitcher cardSwitcher){
         super(cardSwitcher);
-        super.gameTimer.start();
     }
     public void paint(Graphics g){//重写paint方法
         super.paint(g);
@@ -19,7 +18,7 @@ public class MenuPanel extends Panel{
     }
     void handleMouseClicked(MouseEvent e){
         if (e.getX()>0&&e.getX()<100&&e.getY()>0&&e.getY()<100){//点击了返回按钮
-            cardSwitcher.switchCard("GAME");
+            cardSwitcher.switchCard("START");
         }
         if (e.getX()>300&&e.getX()<345&&e.getY()>510&&e.getY()<585) {//点击了第一关按钮
             cardSwitcher.switchCard("GAME1");

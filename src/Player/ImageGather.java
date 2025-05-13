@@ -9,6 +9,7 @@ public class ImageGather {
     };
     public static Image[] LoadingBackground = new Image[]{
             Toolkit.getDefaultToolkit().getImage("./img/loadingmap.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/ProtectJAVA.png"),
     };
     public static Image[] Mission = new Image[]{
             Toolkit.getDefaultToolkit().getImage("./img/mission1.png"),
@@ -26,8 +27,20 @@ public class ImageGather {
             Toolkit.getDefaultToolkit().getImage("./img/nullTower1.png"),
             Toolkit.getDefaultToolkit().getImage("./img/nullTower2.png"),
     };
-    public static Image[] ArrayTower = new Image[]{
-            Toolkit.getDefaultToolkit().getImage("./img/arrowTower1.png"),
-            Toolkit.getDefaultToolkit().getImage("./img/arrowTower2.png"),
+    public static Image[] ArrayTower1 = new Image[]{
+            Toolkit.getDefaultToolkit().getImage("./img/arrowTower11.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/arrowTower12.png"),
+    };
+    public static Image[] ArrayTower2 = new Image[]{
+            Toolkit.getDefaultToolkit().getImage("./img/arrowTower21.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/arrowTower22.png"),
+    };
+    public static Image[] ArrayTower3 = new Image[]{
+            Toolkit.getDefaultToolkit().getImage("./img/arrowTower31.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/arrowTower32.png"),
+        };
+    public static Image[] StartButton = new Image[]{
+            Toolkit.getDefaultToolkit().getImage("./img/start1.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/start2.png"),
     };
 }

@@ -18,8 +18,9 @@ public class App extends JFrame implements CardSwitcher {
         cardPanel.add(new Mission1(this), "GAME1");
         cardPanel.add(new Mission2(this), "GAME2");
         cardPanel.add(new Mission3(this), "GAME3");
+        cardPanel.add(new StartPanel(this), "START");
         add(cardPanel, BorderLayout.CENTER);//将卡片面板添加到窗口中
-        cardLayout.show(cardPanel, "LOADING");
+        cardLayout.show(cardPanel, "START");
     }
     public void switchCard(String cardName) {//设置回调函数
         cardLayout.show(cardPanel, cardName);
