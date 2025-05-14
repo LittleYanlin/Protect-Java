@@ -21,4 +21,7 @@ public class Tower {
     public int getTowerType(){
         return 0;
     }
+    public int getAttackRange(){
+        return attackRange;
+    }
 }

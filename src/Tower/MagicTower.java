@@ -6,8 +6,12 @@ public class MagicTower extends Tower{
         attackDamage=8;
         attackDealy=66;
         pastAttack=0;
+        attackRange=100;
     }
     public int getTowerType(){
+        return 2;
+    }
+    public int getAttackType(){
         return 2;
     }
 }

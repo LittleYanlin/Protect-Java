@@ -1,15 +1,19 @@
 package Panel;
 import java.awt.Graphics;
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import Player.ImageGather;
 import Tower.Tower;
 import Tower.ArrayTower;
+import Tower.MagicTower;
 import Game.CardSwitcher;
 public class Mission1 extends GamePanel{
     boolean isBuilding=false;
     int m=0,buildingnum=-1;
-    int[] MouseMoveToTower=new int[1];
-    int[] MouseMoveToBuilding=new int[1];
+    int[] MouseMoveToTower=new int[2];
+    int[] MouseMoveToBuilding=new int[2];
     public Mission1(CardSwitcher cardSwitcher){
         super(cardSwitcher);
         towers=new Tower[]{
@@ -26,7 +30,7 @@ public class Mission1 extends GamePanel{
             }
             else if(towers[i].getTowerType()==1){
                 if(towers[i].getLevel()==1){
-                    g.drawImage(ImageGather.ArrayTower1[MouseMoveToTower[i]], towers[i].getX()+MouseMoveToTower[i], towers[i].getY(), 127, 176, this);
+                    g.drawImage(ImageGather.ArrayTower1[MouseMoveToTower[i]], towers[i].getX(),towers[i].getY(), 127, 176, this);
                 }
                 else if(towers[i].getLevel()==2){
                     g.drawImage(ImageGather.ArrayTower2[MouseMoveToTower[i]], towers[i].getX(), towers[i].getY(), 127, 176, this);
@@ -37,7 +41,7 @@ public class Mission1 extends GamePanel{
             }
             else if(towers[i].getTowerType()==2){
                 if(towers[i].getLevel()==1){
-                    g.drawImage(ImageGather.MagicTower1[MouseMoveToTower[i]], towers[i].getX()+MouseMoveToTower[i], towers[i].getY(), 127, 176, this);
+                    g.drawImage(ImageGather.MagicTower1[MouseMoveToTower[i]], towers[i].getX(), towers[i].getY(), 127, 176, this);
                 }
                 else if(towers[i].getLevel()==2){
                     g.drawImage(ImageGather.MagicTower2[MouseMoveToTower[i]], towers[i].getX(), towers[i].getY(), 127, 176, this);
@@ -49,6 +53,7 @@ public class Mission1 extends GamePanel{
         }
         if (isBuilding){
             g.drawImage(ImageGather.BuildArrayTower[MouseMoveToBuilding[0]], towers[buildingnum].getX()+130, towers[buildingnum].getY()+30, 55, 80, this);
+            g.drawImage(ImageGather.BuildMagicTower[MouseMoveToBuilding[1]], towers[buildingnum].getX()+190, towers[buildingnum].getY()+30, 55, 80, this);
         }
     }
     void handleMouseClicked(MouseEvent e){
@@ -58,7 +63,13 @@ public class Mission1 extends GamePanel{
         boolean clickBuilding=false;
         if(isBuilding&&e.getX()>towers[buildingnum].getX()+130&&e.getX()<towers[buildingnum].getX()+185&&e.getY()>towers[buildingnum].getY()+30&&e.getY()<towers[buildingnum].getY()+110){//点击了建造按钮
             if (towers[buildingnum].getLevel()==0){
-                towers[buildingnum]=new ArrayTower(towers[buildingnum].getX(),towers[buildingnum].getY()-76);
+                towers[buildingnum]=new ArrayTower(towers[buildingnum].getX()+30,towers[buildingnum].getY()-76);
+                towers[buildingnum].setLevel(1);
+                isBuilding=false;
+            }
+        }if(isBuilding&&e.getX()>towers[buildingnum].getX()+190&&e.getX()<towers[buildingnum].getX()+245&&e.getY()>towers[buildingnum].getY()+30&&e.getY()<towers[buildingnum].getY()+110){//点击了建造按钮
+            if (towers[buildingnum].getLevel()==0){
+                towers[buildingnum]=new MagicTower(towers[buildingnum].getX()+30,towers[buildingnum].getY()-76);
                 towers[buildingnum].setLevel(1);
                 isBuilding=false;
             }
@@ -96,6 +107,12 @@ public class Mission1 extends GamePanel{
         }
         else{
             MouseMoveToBuilding[0]=0;
+        }
+        if (isBuilding&&e.getX()>towers[buildingnum].getX()+190&&e.getX()<towers[buildingnum].getX()+245&&e.getY()>towers[buildingnum].getY()+30&&e.getY()<towers[buildingnum].getY()+110){//箭塔
+            MouseMoveToBuilding[1]=1;
+        }
+        else{
+            MouseMoveToBuilding[1]=0;
         }
     }
 }
