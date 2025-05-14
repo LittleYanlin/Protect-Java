@@ -1,8 +1,6 @@
 package Player;
 import java.awt.Image;
 import java.awt.Toolkit;
-
-import javax.tools.Tool;
 public class ImageGather {
     public static Image[] Background = new Image[]{
             Toolkit.getDefaultToolkit().getImage("./img/map1.png"),

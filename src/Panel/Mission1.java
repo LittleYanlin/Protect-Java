@@ -56,7 +56,7 @@ public class Mission1 extends GamePanel{
             super.cardSwitcher.switchCard("LOADING");
         }
         boolean clickBuilding=false;
-        if(isBuilding&&e.getX()>towers[buildingnum].getX()+130&&e.getX()<towers[buildingnum].getX()+185&&e.getY()>towers[buildingnum].getY()+30&&e.getY()<towers[buildingnum].getX()+110){//点击了建造按钮
+        if(isBuilding&&e.getX()>towers[buildingnum].getX()+130&&e.getX()<towers[buildingnum].getX()+185&&e.getY()>towers[buildingnum].getY()+30&&e.getY()<towers[buildingnum].getY()+110){//点击了建造按钮
             if (towers[buildingnum].getLevel()==0){
                 towers[buildingnum]=new ArrayTower(towers[buildingnum].getX(),towers[buildingnum].getY()-76);
                 towers[buildingnum].setLevel(1);
@@ -91,7 +91,7 @@ public class Mission1 extends GamePanel{
                 MouseMoveToTower[0]=0;
             }
         }
-        if (isBuilding&&e.getX()>towers[buildingnum].getX()+130&&e.getX()<towers[buildingnum].getX()+185&&e.getY()>towers[buildingnum].getY()+30&&e.getY()<towers[buildingnum].getX()+110){//箭塔
+        if (isBuilding&&e.getX()>towers[buildingnum].getX()+130&&e.getX()<towers[buildingnum].getX()+185&&e.getY()>towers[buildingnum].getY()+30&&e.getY()<towers[buildingnum].getY()+110){//箭塔
             MouseMoveToBuilding[0]=1;
         }
         else{
