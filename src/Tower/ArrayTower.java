@@ -6,7 +6,7 @@ public class ArrayTower extends Tower {
         attackDamage = 10;
         attackDealy = 60;
         pastAttack = 0;
-        attackRange=100;
+        attackRange=500;
     }
     public int getTowerType(){
         return 1;

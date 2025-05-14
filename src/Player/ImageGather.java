@@ -59,4 +59,12 @@ public class ImageGather {
             Toolkit.getDefaultToolkit().getImage("./img/start1.png"),
             Toolkit.getDefaultToolkit().getImage("./img/start2.png"),
     };
+    public static Image[] StartGame = new Image[]{
+            Toolkit.getDefaultToolkit().getImage("./img/StartGame1.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/StartGame2.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/StartGame3.png"),
+    };
+    public static Image[] Enemy = new Image[]{
+            Toolkit.getDefaultToolkit().getImage("./img/GunCar.png"),
+    };
 }

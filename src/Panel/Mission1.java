@@ -1,9 +1,8 @@
 package Panel;
 import java.awt.Graphics;
-import java.awt.AlphaComposite;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
+import Enemy.*;
 import Player.ImageGather;
 import Tower.Tower;
 import Tower.ArrayTower;
@@ -11,24 +10,41 @@ import Tower.MagicTower;
 import Game.CardSwitcher;
 public class Mission1 extends GamePanel{
     boolean isBuilding=false;
-    int m=0,buildingnum=-1;
+    int m=0,buildingnum=-1,MouseMoveToStartButton=0;
     int[] MouseMoveToTower=new int[2];
     int[] MouseMoveToBuilding=new int[2];
+    int enemynotSpawn=0,pastSpawn=60;
     public Mission1(CardSwitcher cardSwitcher){
         super(cardSwitcher);
         towers=new Tower[]{
             new Tower(200, 413)
         };
+        map=new int[][]{//map中。右是1，下是2，左是3，上是4
+            {-53,123,1},{123,123,2},{123,528,1},{421,528,4},{421,318,1},{720,318,4},{720,218,1},{1007,218,1}
+        };
+        enemyNum=new int[][]{
+            {10}
+        };
     }
     public void paint(Graphics g){
         super.paint(g);
         g.drawImage(ImageGather.Background[0], 0, 0, 1200, 800, this);//背景图
-        g.drawImage(ImageGather.Back[m], 10, 10, 100, 100, this);//返回按钮
+        g.drawImage(ImageGather.Back[m],10, 10, 100, 100, this);//返回按钮
+        if(isStart){
+            g.drawImage(ImageGather.StartGame[2], 10, 700, 100, 90, this);//开始按钮
+        }
+        else{
+            g.drawImage(ImageGather.StartGame[MouseMoveToStartButton], 10, 700, 100, 90, this);//开始按钮
+        }
+        for(int i=0;i<enemies.size();i++){
+            g.drawImage(ImageGather.Enemy[0],enemies.get(i).getX(),enemies.get(i).getY(),52,49,this);
+        }
         for(int i=0;i<towers.length;i++){
             if(towers[i].getTowerType()==0){
                 g.drawImage(ImageGather.NullTower[MouseMoveToTower[i]], towers[i].getX(), towers[i].getY(), 127, 100, this);
             }
             else if(towers[i].getTowerType()==1){
+                Graphics2D g2 = (Graphics2D) g;
                 if(towers[i].getLevel()==1){
                     g.drawImage(ImageGather.ArrayTower1[MouseMoveToTower[i]], towers[i].getX(),towers[i].getY(), 127, 176, this);
                 }
@@ -37,6 +53,10 @@ public class Mission1 extends GamePanel{
                 }
                 else if(towers[i].getLevel()==3){
                     g.drawImage(ImageGather.ArrayTower3[MouseMoveToTower[i]], towers[i].getX(), towers[i].getY(), 127, 176, this);
+                }
+                if(isBuilding){
+                    g2.setColor(new java.awt.Color(0, 128, 255, 80));
+                    g2.fillOval(towers[i].getX()+64-towers[i].getAttackRange()/2,towers[i].getY()+88-towers[i].getAttackRange()/2,towers[i].getAttackRange(),towers[i].getAttackRange());   
                 }
             }
             else if(towers[i].getTowerType()==2){
@@ -54,6 +74,27 @@ public class Mission1 extends GamePanel{
         if (isBuilding){
             g.drawImage(ImageGather.BuildArrayTower[MouseMoveToBuilding[0]], towers[buildingnum].getX()+130, towers[buildingnum].getY()+30, 55, 80, this);
             g.drawImage(ImageGather.BuildMagicTower[MouseMoveToBuilding[1]], towers[buildingnum].getX()+190, towers[buildingnum].getY()+30, 55, 80, this);
+        }
+    }
+    public void updategame(){
+        if(!isStart){
+            return;
+        }
+        if(pastSpawn<60){
+            pastSpawn++;
+        }
+        if(enemynotSpawn>0&&pastSpawn==60){
+            enemies.add(new Enemy(map[0][0],map[0][1]));
+            enemynotSpawn--;
+            pastSpawn=0;
+        }
+        for(int i=0;i<enemies.size();i++){
+            if(!enemies.get(i).move(map[enemies.get(i).getPoint()][2],map[enemies.get(i).getPoint()+1][map[enemies.get(i).getPoint()][2]==1||map[enemies.get(i).getPoint()][2]==3?0:1],map.length)){
+                enemies.remove(i);
+            }
+        }
+        if(enemies.size()==0&&enemynotSpawn==0){
+            isStart=false;
         }
     }
     void handleMouseClicked(MouseEvent e){
@@ -86,6 +127,10 @@ public class Mission1 extends GamePanel{
             isBuilding=false;
             buildingnum=-1;
         }
+        if(!isStart&&e.getX()>10&&e.getX()<110&&e.getY()>700&&e.getY()<790){//开始按钮点击
+            isStart=true;
+            enemynotSpawn=enemyNum[level][0];
+        }
     }
     void handleMouseMoved(MouseEvent e) {
         if (e.getX()>0&&e.getX()<100&&e.getY()>0&&e.getY()<100){
@@ -113,6 +158,12 @@ public class Mission1 extends GamePanel{
         }
         else{
             MouseMoveToBuilding[1]=0;
+        }
+        if(e.getX()>10&&e.getX()<110&&e.getY()>700&&e.getY()<790){//开始按钮
+            MouseMoveToStartButton=1;
+        }
+        else{
+            MouseMoveToStartButton=0;
         }
     }
 }

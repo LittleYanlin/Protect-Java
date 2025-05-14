@@ -3,38 +3,104 @@ public class Enemy{
     int HP;
     int Speed;
     int x,y;
+    int point;
     boolean IsDied;
     boolean IsAchieve;
     int Endx,Endy;
-
-    
-    public Enemy(int HP,int Speed,int Endx,int Endy){
+    boolean Isturning=false;
+    public int pastMove;
+    public Enemy(int x,int y){
+        this.x=x;
+        this.y=y;
+        this.HP=100;
+        this.Speed=3;
+        this.IsDied=false;
+        this.IsAchieve=false;
+        point=0;
+    }
+    public int getX(){
+        return x;
+    }
+    public int getY(){
+        return y;
+    }
+    public void setX(int x){
+        this.x=x;
+    }
+    public void setY(int y){
+        this.y=y;
+    }
+    public int getHP(){
+        return HP;
+    }
+    public void setHP(int HP){
         this.HP=HP;
-        this.Speed=Speed;
     }
-
-
-    public void Move_Y(int Speed){
-        y=y+Speed;
+    public int getSpeed(){
+        return Speed;
     }
-
-
-    public void Move_X(int Speed){
-        x=x+Speed;
-    }
-
-
     public boolean LiveOrDied(boolean IsDied){
         return IsDied;
     }
-
-
-    public boolean AchieveOrNot(boolean IsAchieve){
-        IsAchieve=(Math.abs(x-this.Endx)<=50)&&(Math.abs(y-this.Endy)<=50);
-        return IsAchieve;
+    public int getPoint(){
+        return point;
     }
-
-
+    public void setPoint(int point){
+        this.point=point;
+    }
+    public boolean ShouldMove(){
+        return pastMove==2;
+    }
+    public boolean move(int direction,int endpoint,int maplength){
+        pastMove++;
+        if(pastMove!=2){
+            return true;
+        }
+        if(direction==1){//向右走
+            if(x+Speed>=endpoint){
+                x=endpoint;
+                point++;
+            }
+            else{
+                x+=Speed;
+            }
+        }
+        else if(direction==2){//向下走
+            if(y+Speed>=endpoint){
+                y=endpoint;
+                point++;
+            }
+            else{
+                y+=Speed;
+            }
+        }
+        else if(direction==3){//向左走
+            if(x-Speed<=endpoint){
+                x=endpoint;
+                point++;
+            }
+            else{
+                x-=Speed;
+            }
+        }
+        else if(direction==4){//向上走
+            if(y-Speed<=endpoint){
+                y=endpoint;
+                point++;
+            }
+            else{
+                y-=Speed;
+            }
+        }
+        pastMove=0;
+        if(point==maplength-1){
+            return false;
+        }
+        return true;
+    }
+    public void resetMove(){
+        pastMove=0;
+    }
     public void BeAttacted(int HP,int Attack){
         this.HP=this.HP-Attack;
         this.IsDied=HP<=0;
