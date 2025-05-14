@@ -35,9 +35,20 @@ public class Mission1 extends GamePanel{
                     g.drawImage(ImageGather.ArrayTower3[MouseMoveToTower[i]], towers[i].getX(), towers[i].getY(), 127, 176, this);
                 }
             }
+            else if(towers[i].getTowerType()==2){
+                if(towers[i].getLevel()==1){
+                    g.drawImage(ImageGather.MagicTower1[MouseMoveToTower[i]], towers[i].getX()+MouseMoveToTower[i], towers[i].getY(), 127, 176, this);
+                }
+                else if(towers[i].getLevel()==2){
+                    g.drawImage(ImageGather.MagicTower2[MouseMoveToTower[i]], towers[i].getX(), towers[i].getY(), 127, 176, this);
+                }
+                else if(towers[i].getLevel()==3){
+                    g.drawImage(ImageGather.MagicTower3[MouseMoveToTower[i]], towers[i].getX(), towers[i].getY(), 127, 176, this);
+                }
+            }
         }
         if (isBuilding){
-            g.drawImage(ImageGather.BuildArrayTower[MouseMoveToBuilding[0]], 877, 716, 55, 80, this);
+            g.drawImage(ImageGather.BuildArrayTower[MouseMoveToBuilding[0]], towers[buildingnum].getX()+130, towers[buildingnum].getY()+30, 55, 80, this);
         }
     }
     void handleMouseClicked(MouseEvent e){
@@ -45,7 +56,7 @@ public class Mission1 extends GamePanel{
             super.cardSwitcher.switchCard("LOADING");
         }
         boolean clickBuilding=false;
-        if(isBuilding&&e.getX()>877&&e.getX()<932&&e.getY()>716&&e.getY()<796){//点击了建造按钮
+        if(isBuilding&&e.getX()>towers[buildingnum].getX()+130&&e.getX()<towers[buildingnum].getX()+185&&e.getY()>towers[buildingnum].getY()+30&&e.getY()<towers[buildingnum].getX()+110){//点击了建造按钮
             if (towers[buildingnum].getLevel()==0){
                 towers[buildingnum]=new ArrayTower(towers[buildingnum].getX(),towers[buildingnum].getY()-76);
                 towers[buildingnum].setLevel(1);
@@ -80,7 +91,7 @@ public class Mission1 extends GamePanel{
                 MouseMoveToTower[0]=0;
             }
         }
-        if (isBuilding&&e.getX()>877&&e.getX()<932&&e.getY()>716&&e.getY()<796){//箭塔
+        if (isBuilding&&e.getX()>towers[buildingnum].getX()+130&&e.getX()<towers[buildingnum].getX()+185&&e.getY()>towers[buildingnum].getY()+30&&e.getY()<towers[buildingnum].getX()+110){//箭塔
             MouseMoveToBuilding[0]=1;
         }
         else{

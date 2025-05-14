@@ -1,6 +1,8 @@
 package Player;
 import java.awt.Image;
 import java.awt.Toolkit;
+
+import javax.tools.Tool;
 public class ImageGather {
     public static Image[] Background = new Image[]{
             Toolkit.getDefaultToolkit().getImage("./img/map1.png"),
@@ -23,6 +25,10 @@ public class ImageGather {
             Toolkit.getDefaultToolkit().getImage("./img/buildArrowTower1.png"),
             Toolkit.getDefaultToolkit().getImage("./img/buildArrowTower2.png"),
     };
+    public static Image[] BuildMagicTower=new Image[]{
+            Toolkit.getDefaultToolkit().getImage("./img/buildArrowTower2.png"),//法师塔建造图标（暂用箭塔）
+            Toolkit.getDefaultToolkit().getImage("./img/buildArrowTower1.png"),
+    };
     public static Image[] NullTower = new Image[]{
             Toolkit.getDefaultToolkit().getImage("./img/nullTower1.png"),
             Toolkit.getDefaultToolkit().getImage("./img/nullTower2.png"),
@@ -39,6 +45,18 @@ public class ImageGather {
             Toolkit.getDefaultToolkit().getImage("./img/arrowTower31.png"),
             Toolkit.getDefaultToolkit().getImage("./img/arrowTower32.png"),
         };
+    public static Image[] MagicTower1 = new Image[]{//以下三个为法师塔的图标（暂用箭塔）
+            Toolkit.getDefaultToolkit().getImage("./img/arrowTower31.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/arrowTower32.png"),
+    };
+    public static Image[] MagicTower2 = new Image[]{
+            Toolkit.getDefaultToolkit().getImage("./img/arrowTower21.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/arrowTower22.png"),
+    };
+    public static Image[] MagicTower3 = new Image[]{
+            Toolkit.getDefaultToolkit().getImage("./img/arrowTower11.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/arrowTower12.png"),
+        };  
     public static Image[] StartButton = new Image[]{
             Toolkit.getDefaultToolkit().getImage("./img/start1.png"),
             Toolkit.getDefaultToolkit().getImage("./img/start2.png"),
