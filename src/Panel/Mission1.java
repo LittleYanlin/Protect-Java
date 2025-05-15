@@ -8,6 +8,7 @@ import Tower.Tower;
 import Tower.ArrayTower;
 import Tower.MagicTower;
 import Game.CardSwitcher;
+import Bullet.Bullet;
 public class Mission1 extends GamePanel{
     boolean isBuilding=false;
     int m=0,buildingnum=-1,MouseMoveToStartButton=0;
@@ -36,14 +37,14 @@ public class Mission1 extends GamePanel{
         else{
             g.drawImage(ImageGather.StartGame[MouseMoveToStartButton], 10, 700, 100, 90, this);//开始按钮
         }
-        for(int i=0;i<enemies.size();i++){
+        for(int i=0;i<enemies.size();i++){//绘画小兵
             g.drawImage(ImageGather.Enemy[0],enemies.get(i).getX(),enemies.get(i).getY(),52,49,this);
         }
-        for(int i=0;i<towers.length;i++){
+        for(int i=0;i<towers.length;i++){//绘画塔
             if(towers[i].getTowerType()==0){
                 g.drawImage(ImageGather.NullTower[MouseMoveToTower[i]], towers[i].getX(), towers[i].getY(), 127, 100, this);
             }
-            else if(towers[i].getTowerType()==1){
+            else if(towers[i].getTowerType()==1){//箭塔
                 Graphics2D g2 = (Graphics2D) g;
                 if(towers[i].getLevel()==1){
                     g.drawImage(ImageGather.ArrayTower1[MouseMoveToTower[i]], towers[i].getX(),towers[i].getY(), 127, 176, this);
@@ -59,7 +60,7 @@ public class Mission1 extends GamePanel{
                     g2.fillOval(towers[i].getX()+64-towers[i].getAttackRange()/2,towers[i].getY()+88-towers[i].getAttackRange()/2,towers[i].getAttackRange(),towers[i].getAttackRange());   
                 }
             }
-            else if(towers[i].getTowerType()==2){
+            else if(towers[i].getTowerType()==2){//法师塔
                 if(towers[i].getLevel()==1){
                     g.drawImage(ImageGather.MagicTower1[MouseMoveToTower[i]], towers[i].getX(), towers[i].getY(), 127, 176, this);
                 }
@@ -71,30 +72,53 @@ public class Mission1 extends GamePanel{
                 }
             }
         }
-        if (isBuilding){
+        if (isBuilding){//显示建造菜单
             g.drawImage(ImageGather.BuildArrayTower[MouseMoveToBuilding[0]], towers[buildingnum].getX()+130, towers[buildingnum].getY()+30, 55, 80, this);
             g.drawImage(ImageGather.BuildMagicTower[MouseMoveToBuilding[1]], towers[buildingnum].getX()+190, towers[buildingnum].getY()+30, 55, 80, this);
         }
+        for(int i=0;i<bullets.size();i++){//绘画子弹
+            g.drawImage(ImageGather.Bullet[0],bullets.get(i).getX(),bullets.get(i).getY(),8,8,this);
+        }
     }
     public void updategame(){
-        if(!isStart){
+        if(!isStart){//如果游戏没有开始就跳过
             return;
         }
-        if(pastSpawn<60){
+        if(pastSpawn<60){//设置每60ticks生成一个小兵
             pastSpawn++;
         }
-        if(enemynotSpawn>0&&pastSpawn==60){
+        if(enemynotSpawn>0&&pastSpawn==60){//开始生成小兵并重制生成时间
             enemies.add(new Enemy(map[0][0],map[0][1]));
             enemynotSpawn--;
             pastSpawn=0;
         }
-        for(int i=0;i<enemies.size();i++){
+        for(int i=0;i<enemies.size();i++){//小兵移动，如果小兵到达JAVA则删除小兵并扣血
             if(!enemies.get(i).move(map[enemies.get(i).getPoint()][2],map[enemies.get(i).getPoint()+1][map[enemies.get(i).getPoint()][2]==1||map[enemies.get(i).getPoint()][2]==3?0:1],map.length)){
                 enemies.remove(i);
+                player.getDamage();
             }
         }
-        if(enemies.size()==0&&enemynotSpawn==0){
+        for(int i=0;i<towers.length;i++){//如果塔已经建造了就攻击
+            if(towers[i].getLevel()!=0){
+                towers[i].attack(enemies,bullets);
+            }
+        }
+        for(int i=0;i<bullets.size();i++){//子弹移动，如果子弹到达目标则删除子弹
+            if(bullets.get(i).move()){
+                bullets.remove(i);
+            }
+        }
+        for(int i=0;i<enemies.size();i++){//如果小兵血量为0则删除小兵并给玩家金钱
+            if(enemies.get(i).getHP()<=0){
+                enemies.remove(i);
+                player.getMoney(100);
+            }
+        }
+        if(enemies.size()==0&&enemynotSpawn==0){//如果小兵全部被消灭则跳转到胜利界面
             isStart=false;
+        }
+        if(player.getHP()<=0){//如果玩家血量为0则跳转到失败界面
+            
         }
     }
     void handleMouseClicked(MouseEvent e){
@@ -139,7 +163,7 @@ public class Mission1 extends GamePanel{
         else{
             m=0;
         }
-        for(int i=0;i<towers.length;i++){
+        for(int i=0;i<towers.length;i++){//鼠标移动到塔上
             if (e.getX()>towers[i].getX()&&e.getX()<towers[i].getX()+127&&e.getY()>towers[i].getY()&&e.getY()<towers[i].getY()+(towers[i].getLevel()==0?100:176)){
                 MouseMoveToTower[0]=1;
             }
@@ -147,18 +171,21 @@ public class Mission1 extends GamePanel{
                 MouseMoveToTower[0]=0;
             }
         }
+        //鼠标移动到建造按钮上
         if (isBuilding&&e.getX()>towers[buildingnum].getX()+130&&e.getX()<towers[buildingnum].getX()+185&&e.getY()>towers[buildingnum].getY()+30&&e.getY()<towers[buildingnum].getY()+110){//箭塔
             MouseMoveToBuilding[0]=1;
         }
         else{
             MouseMoveToBuilding[0]=0;
         }
+        //鼠标移动到建造按钮上
         if (isBuilding&&e.getX()>towers[buildingnum].getX()+190&&e.getX()<towers[buildingnum].getX()+245&&e.getY()>towers[buildingnum].getY()+30&&e.getY()<towers[buildingnum].getY()+110){//箭塔
             MouseMoveToBuilding[1]=1;
         }
         else{
             MouseMoveToBuilding[1]=0;
         }
+        //鼠标移动到开始按钮上
         if(e.getX()>10&&e.getX()<110&&e.getY()>700&&e.getY()<790){//开始按钮
             MouseMoveToStartButton=1;
         }

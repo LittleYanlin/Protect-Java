@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import Game.CardSwitcher;
 import Tower.Tower;
 import Enemy.*;
+import Bullet.Bullet;
 public class GamePanel extends Panel{
     boolean isBuilding=false,isStart=false;
     int level=0;
@@ -10,7 +11,9 @@ public class GamePanel extends Panel{
     int[][] map;
     int[][] enemyNum;
     int ememyNotSpawn;
+    Player player=new Player();
     ArrayList<Enemy> enemies=new ArrayList<>();
+    ArrayList<Bullet> bullets=new ArrayList<>();
     public GamePanel(CardSwitcher cardSwitcher){
         super(cardSwitcher);
         gameTimer = new javax.swing.Timer(16, e -> {

@@ -33,8 +33,13 @@ public class Enemy{
     public int getHP(){
         return HP;
     }
-    public void setHP(int HP){
-        this.HP=HP;
+    public void getDamage(int damage){
+        if(this.Hp-damage<=0){
+            this.Hp=0;
+        }
+        else{
+            this.HP-=damage;
+        }
     }
     public int getSpeed(){
         return Speed;

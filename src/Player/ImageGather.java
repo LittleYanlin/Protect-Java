@@ -67,4 +67,7 @@ public class ImageGather {
     public static Image[] Enemy = new Image[]{
             Toolkit.getDefaultToolkit().getImage("./img/GunCar.png"),
     };
+    public static Image[] Bullet = new Image[]{
+            Toolkit.getDefaultToolkit().getImage("./img/bullet.png"),
+    };
 }
