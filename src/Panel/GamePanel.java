@@ -4,8 +4,9 @@ import Game.CardSwitcher;
 import Tower.Tower;
 import Enemy.*;
 import Bullet.Bullet;
+import Player.Player;
 public class GamePanel extends Panel{
-    boolean isBuilding=false,isStart=false;
+    boolean isBuilding=false,isStart=false,canStart=true;
     int level=0;
     Tower[] towers;
     int[][] map;

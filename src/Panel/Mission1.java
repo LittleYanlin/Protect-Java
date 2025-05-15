@@ -1,9 +1,11 @@
 package Panel;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import Enemy.*;
 import Player.ImageGather;
+import Player.Player;
 import Tower.Tower;
 import Tower.ArrayTower;
 import Tower.MagicTower;
@@ -24,13 +26,18 @@ public class Mission1 extends GamePanel{
             {-53,123,1},{123,123,2},{123,528,1},{421,528,4},{421,318,1},{720,318,4},{720,218,1},{1007,218,1}
         };
         enemyNum=new int[][]{
-            {10}
+            {10},{20},{30}
         };
     }
     public void paint(Graphics g){
         super.paint(g);
+        g.setFont(new java.awt.Font("微软雅黑", java.awt.Font.BOLD, 32)); // 字体变大
+        g.setColor(java.awt.Color.WHITE); // 白色
         g.drawImage(ImageGather.Background[0], 0, 0, 1200, 800, this);//背景图
         g.drawImage(ImageGather.Back[m],10, 10, 100, 100, this);//返回按钮
+        g.drawString(String.valueOf(player.getMoney()),450,60);//金钱
+        g.drawString(String.valueOf(player.getHP()),665,60);//血量
+        g.drawString("关卡："+String.valueOf(level+1),880,60);//关卡
         if(isStart){
             g.drawImage(ImageGather.StartGame[2], 10, 700, 100, 90, this);//开始按钮
         }
@@ -70,11 +77,21 @@ public class Mission1 extends GamePanel{
                 else if(towers[i].getLevel()==3){
                     g.drawImage(ImageGather.MagicTower3[MouseMoveToTower[i]], towers[i].getX(), towers[i].getY(), 127, 176, this);
                 }
+                if(isBuilding){
+                    Graphics2D g2 = (Graphics2D) g;
+                    g2.setColor(new java.awt.Color(0, 128, 255, 80));
+                    g2.fillOval(towers[i].getX()+64-towers[i].getAttackRange()/2,towers[i].getY()+88-towers[i].getAttackRange()/2,towers[i].getAttackRange(),towers[i].getAttackRange());
+                }
             }
         }
         if (isBuilding){//显示建造菜单
-            g.drawImage(ImageGather.BuildArrayTower[MouseMoveToBuilding[0]], towers[buildingnum].getX()+130, towers[buildingnum].getY()+30, 55, 80, this);
-            g.drawImage(ImageGather.BuildMagicTower[MouseMoveToBuilding[1]], towers[buildingnum].getX()+190, towers[buildingnum].getY()+30, 55, 80, this);
+            if(towers[buildingnum].getLevel()==0){
+                g.drawImage(ImageGather.BuildArrayTower[MouseMoveToBuilding[0]], towers[buildingnum].getX()+130, towers[buildingnum].getY()+30, 55, 80, this);
+                g.drawImage(ImageGather.BuildMagicTower[MouseMoveToBuilding[1]], towers[buildingnum].getX()+190, towers[buildingnum].getY()+30, 55, 80, this);
+            }
+            else if(towers[buildingnum].getLevel()==1||towers[buildingnum].getLevel()==2){
+                g.drawImage(ImageGather.Levelup[0],towers[buildingnum].getX()+130,towers[buildingnum].getY()+30, 55, 80, this);
+            }
         }
         for(int i=0;i<bullets.size();i++){//绘画子弹
             g.drawImage(ImageGather.Bullet[0],bullets.get(i).getX(),bullets.get(i).getY(),8,8,this);
@@ -95,7 +112,7 @@ public class Mission1 extends GamePanel{
         for(int i=0;i<enemies.size();i++){//小兵移动，如果小兵到达JAVA则删除小兵并扣血
             if(!enemies.get(i).move(map[enemies.get(i).getPoint()][2],map[enemies.get(i).getPoint()+1][map[enemies.get(i).getPoint()][2]==1||map[enemies.get(i).getPoint()][2]==3?0:1],map.length)){
                 enemies.remove(i);
-                player.getDamage();
+                player.getDamage(10);
             }
         }
         for(int i=0;i<towers.length;i++){//如果塔已经建造了就攻击
@@ -116,9 +133,15 @@ public class Mission1 extends GamePanel{
         }
         if(enemies.size()==0&&enemynotSpawn==0){//如果小兵全部被消灭则跳转到胜利界面
             isStart=false;
+            level++;
         }
         if(player.getHP()<=0){//如果玩家血量为0则跳转到失败界面
-            
+            canStart=false;
+            isStart=false;
+        }
+        if(level>=enemyNum.length){
+            isStart=false;
+            level=0;
         }
     }
     void handleMouseClicked(MouseEvent e){
@@ -128,8 +151,16 @@ public class Mission1 extends GamePanel{
         boolean clickBuilding=false;
         if(isBuilding&&e.getX()>towers[buildingnum].getX()+130&&e.getX()<towers[buildingnum].getX()+185&&e.getY()>towers[buildingnum].getY()+30&&e.getY()<towers[buildingnum].getY()+110){//点击了建造按钮
             if (towers[buildingnum].getLevel()==0){
-                towers[buildingnum]=new ArrayTower(towers[buildingnum].getX()+30,towers[buildingnum].getY()-76);
+                towers[buildingnum]=new ArrayTower(towers[buildingnum].getX()+30,towers[buildingnum].getY()-76,1007,218);
                 towers[buildingnum].setLevel(1);
+                isBuilding=false;
+            }
+            else if(towers[buildingnum].getLevel()==1){
+                towers[buildingnum].setLevel(2);
+                isBuilding=false;
+            }
+            else if(towers[buildingnum].getLevel()==2){
+                towers[buildingnum].setLevel(3);
                 isBuilding=false;
             }
         }if(isBuilding&&e.getX()>towers[buildingnum].getX()+190&&e.getX()<towers[buildingnum].getX()+245&&e.getY()>towers[buildingnum].getY()+30&&e.getY()<towers[buildingnum].getY()+110){//点击了建造按钮
@@ -151,7 +182,7 @@ public class Mission1 extends GamePanel{
             isBuilding=false;
             buildingnum=-1;
         }
-        if(!isStart&&e.getX()>10&&e.getX()<110&&e.getY()>700&&e.getY()<790){//开始按钮点击
+        if(!isStart&&canStart&&e.getX()>10&&e.getX()<110&&e.getY()>700&&e.getY()<790){//开始按钮点击
             isStart=true;
             enemynotSpawn=enemyNum[level][0];
         }

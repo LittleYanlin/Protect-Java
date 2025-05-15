@@ -44,16 +44,16 @@ public class ImageGather {
             Toolkit.getDefaultToolkit().getImage("./img/arrowTower32.png"),
         };
     public static Image[] MagicTower1 = new Image[]{//以下三个为法师塔的图标（暂用箭塔）
-            Toolkit.getDefaultToolkit().getImage("./img/arrowTower31.png"),
-            Toolkit.getDefaultToolkit().getImage("./img/arrowTower32.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/fireTower11.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/fireTower12.png"),
     };
     public static Image[] MagicTower2 = new Image[]{
-            Toolkit.getDefaultToolkit().getImage("./img/arrowTower21.png"),
-            Toolkit.getDefaultToolkit().getImage("./img/arrowTower22.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/fireTower21.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/fireTower22.png"),
     };
     public static Image[] MagicTower3 = new Image[]{
-            Toolkit.getDefaultToolkit().getImage("./img/arrowTower11.png"),
-            Toolkit.getDefaultToolkit().getImage("./img/arrowTower12.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/fireTower31.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/fireTower32.png"),
         };  
     public static Image[] StartButton = new Image[]{
             Toolkit.getDefaultToolkit().getImage("./img/start1.png"),
@@ -69,5 +69,8 @@ public class ImageGather {
     };
     public static Image[] Bullet = new Image[]{
             Toolkit.getDefaultToolkit().getImage("./img/bullet.png"),
+    };
+    public static Image[] Levelup = new Image[]{
+            Toolkit.getDefaultToolkit().getImage("./img/levelUpButtonOff160_1.png"),
     };
 }

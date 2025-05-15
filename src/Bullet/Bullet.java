@@ -12,18 +12,22 @@ public class Bullet{
         this.damage=damage;
         this.speed=speed;
     }
-    public boolean move(){
-        double distance=Math.sqrt(Math.pow((x-target.getX()),2)+Math.pow((y-target.getY()),2));
-        double directionX=(target.getX()-x)/distance;
-        double directionY=(target.getY()-y)/distance;
-        int speedX=(speed*directionX);
-        int speedY=(speed*directionY);
-        if(Math.abs(x-target.getX())<speedX && Math.abs(y-target.getY())<speedY){
+    public boolean move() {
+        double distance = Math.sqrt(Math.pow((x - target.getX()), 2) + Math.pow((y - target.getY()), 2));
+        if (distance <= speed) {
             target.getDamage(damage);
             return true;
         }
-        x+=speedX;
-        y+=speedY;
+        double directionX = (target.getX() - x) / distance;
+        double directionY = (target.getY() - y) / distance;
+        x += (int)(speed * directionX);
+        y += (int)(speed * directionY);
         return false;
+    }
+    public int getX(){
+        return x;
+    }
+    public int getY(){
+        return y;
     }
 }

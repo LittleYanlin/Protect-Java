@@ -1,5 +1,5 @@
 package Player;
-class Player{
+public class Player{
     int money;
     int HP;
     public Player(){
@@ -15,7 +15,7 @@ class Player{
     public void getMoney(int money){
         this.money+=money;
     }
-    public void getDamage(){
-        HP--;
+    public void getDamage(int damage){
+        HP-=damage;
     }
 }

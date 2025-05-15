@@ -34,8 +34,8 @@ public class Enemy{
         return HP;
     }
     public void getDamage(int damage){
-        if(this.Hp-damage<=0){
-            this.Hp=0;
+        if(this.HP-damage<=0){
+            this.HP=0;
         }
         else{
             this.HP-=damage;
