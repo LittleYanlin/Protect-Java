@@ -1,16 +1,14 @@
 package Panel;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.event.MouseEvent;
+import javax.swing.JOptionPane;
 import Enemy.*;
 import Player.ImageGather;
-import Player.Player;
 import Tower.Tower;
 import Tower.ArrayTower;
 import Tower.MagicTower;
 import Game.CardSwitcher;
-import Bullet.Bullet;
 public class Mission1 extends GamePanel{
     boolean isBuilding=false;
     int m=0,buildingnum=-1,MouseMoveToStartButton=0;
@@ -28,11 +26,14 @@ public class Mission1 extends GamePanel{
         enemyNum=new int[][]{
             {10},{20},{30}
         };
+        towerUpdateMoney=new int[][]{
+            {100,200,300},{100,200,300}
+        };
     }
     public void paint(Graphics g){
         super.paint(g);
-        g.setFont(new java.awt.Font("微软雅黑", java.awt.Font.BOLD, 32)); // 字体变大
-        g.setColor(java.awt.Color.WHITE); // 白色
+        g.setFont(new java.awt.Font("微软雅黑", java.awt.Font.BOLD, 32)); //设置字体和字号
+        g.setColor(java.awt.Color.WHITE); //设置文字的颜色
         g.drawImage(ImageGather.Background[0], 0, 0, 1200, 800, this);//背景图
         g.drawImage(ImageGather.Back[m],10, 10, 100, 100, this);//返回按钮
         g.drawString(String.valueOf(player.getMoney()),450,60);//金钱
@@ -122,13 +123,23 @@ public class Mission1 extends GamePanel{
         }
         for(int i=0;i<bullets.size();i++){//子弹移动，如果子弹到达目标则删除子弹
             if(bullets.get(i).move()){
+                if(bullets.get(i).getType()==1){//如果是箭塔的子弹
+                    bullets.get(i).getTarget().getDamage(bullets.get(i).getDamage());
+                }
+                else if(bullets.get(i).getType()==2){//如果是法师塔的子弹，会造成范围伤害
+                    for(int j=0;j<enemies.size();j++){
+                        if(Math.sqrt(Math.pow((bullets.get(i).getX()-enemies.get(j).getX()),2)+Math.pow((bullets.get(i).getY()-enemies.get(j).getY()),2))<=bullets.get(i).getRange()){
+                            enemies.get(i).getDamage(bullets.get(i).getDamage());
+                        }
+                    }
+                }
                 bullets.remove(i);
             }
         }
         for(int i=0;i<enemies.size();i++){//如果小兵血量为0则删除小兵并给玩家金钱
             if(enemies.get(i).getHP()<=0){
                 enemies.remove(i);
-                player.getMoney(100);
+                player.setMoney(100);
             }
         }
         if(enemies.size()==0&&enemynotSpawn==0){//如果小兵全部被消灭则跳转到胜利界面
@@ -138,10 +149,14 @@ public class Mission1 extends GamePanel{
         if(player.getHP()<=0){//如果玩家血量为0则跳转到失败界面
             canStart=false;
             isStart=false;
+            JOptionPane.showMessageDialog(null, "你失败了！", "提示", JOptionPane.INFORMATION_MESSAGE);//弹出失败的提示框
+            return;
         }
         if(level>=enemyNum.length){
             isStart=false;
-            level=0;
+            canStart=false;
+            JOptionPane.showMessageDialog(null, "你胜利了！", "提示", JOptionPane.INFORMATION_MESSAGE);//弹出胜利的提示
+            return;
         }
     }
     void handleMouseClicked(MouseEvent e){
@@ -149,22 +164,43 @@ public class Mission1 extends GamePanel{
             super.cardSwitcher.switchCard("LOADING");
         }
         boolean clickBuilding=false;
-        if(isBuilding&&e.getX()>towers[buildingnum].getX()+130&&e.getX()<towers[buildingnum].getX()+185&&e.getY()>towers[buildingnum].getY()+30&&e.getY()<towers[buildingnum].getY()+110){//点击了建造按钮
+        if(isBuilding&&e.getX()>towers[buildingnum].getX()+130&&e.getX()<towers[buildingnum].getX()+185&&e.getY()>towers[buildingnum].getY()+30&&e.getY()<towers[buildingnum].getY()+110){//点击了箭塔建造按钮，升级按钮也在这里
             if (towers[buildingnum].getLevel()==0){
+                if(player.getMoney()<towerUpdateMoney[0][0]){
+                    JOptionPane.showMessageDialog(null, "你没有足够的金钱！", "提示", JOptionPane.INFORMATION_MESSAGE);//弹出钱不够的提示框
+                    return;
+                }
+                player.setMoney(-towerUpdateMoney[0][0]);
                 towers[buildingnum]=new ArrayTower(towers[buildingnum].getX()+30,towers[buildingnum].getY()-76,1007,218);
                 towers[buildingnum].setLevel(1);
                 isBuilding=false;
             }
             else if(towers[buildingnum].getLevel()==1){
+                if(player.getMoney()<towerUpdateMoney[towers[buildingnum].getTowerType()-1][1]){
+                    JOptionPane.showMessageDialog(null, "你没有足够的金钱！", "提示", JOptionPane.INFORMATION_MESSAGE);//弹出钱不够的提示框
+                    return;
+                }
+                player.setMoney(-towerUpdateMoney[towers[buildingnum].getTowerType()-1][1]);
                 towers[buildingnum].setLevel(2);
                 isBuilding=false;
             }
             else if(towers[buildingnum].getLevel()==2){
+                if(player.getMoney()<towerUpdateMoney[towers[buildingnum].getTowerType()-1][2]){
+                    JOptionPane.showMessageDialog(null, "你没有足够的金钱！", "提示", JOptionPane.INFORMATION_MESSAGE);//弹出钱不够的提示框
+                    return;
+                }
+                player.setMoney(-towerUpdateMoney[towers[buildingnum].getTowerType()-1][2]);
                 towers[buildingnum].setLevel(3);
                 isBuilding=false;
             }
-        }if(isBuilding&&e.getX()>towers[buildingnum].getX()+190&&e.getX()<towers[buildingnum].getX()+245&&e.getY()>towers[buildingnum].getY()+30&&e.getY()<towers[buildingnum].getY()+110){//点击了建造按钮
+        }
+        if(isBuilding&&e.getX()>towers[buildingnum].getX()+190&&e.getX()<towers[buildingnum].getX()+245&&e.getY()>towers[buildingnum].getY()+30&&e.getY()<towers[buildingnum].getY()+110){//点击了法师塔建造按钮
             if (towers[buildingnum].getLevel()==0){
+                if(player.getMoney()<towerUpdateMoney[1][0]){
+                    JOptionPane.showMessageDialog(null, "你没有足够的金钱！", "提示", JOptionPane.INFORMATION_MESSAGE);//弹出钱不够的提示框
+                    return;
+                }
+                player.setMoney(-towerUpdateMoney[1][0]);
                 towers[buildingnum]=new MagicTower(towers[buildingnum].getX()+30,towers[buildingnum].getY()-76);
                 towers[buildingnum].setLevel(1);
                 isBuilding=false;

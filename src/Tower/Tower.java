@@ -19,6 +19,9 @@ public class Tower {
     public int getY(){
         return y;
     }
+    public int getAttackType(){
+        return -1;
+    }
     public void setLevel(int level){
         this.level=level;
         attackDamage=attackDamage+level*10;
@@ -74,7 +77,7 @@ public class Tower {
         }
         // 发射子弹
         System.out.println("Attack " + attacki);
-        bullets.add(new Bullet(x, y, enemiesSameHpMin.get(attacki), attackDamage, 20));
+        bullets.add(new Bullet(x, y, enemiesSameHpMin.get(attacki), attackDamage, 20, getAttackType(),-1));
         pastAttack = 0;
     }
 }

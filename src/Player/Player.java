@@ -12,7 +12,7 @@ public class Player{
     public int getHP(){
         return HP;
     }
-    public void getMoney(int money){
+    public void setMoney(int money){
         this.money+=money;
     }
     public void getDamage(int damage){

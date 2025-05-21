@@ -15,6 +15,7 @@ public class GamePanel extends Panel{
     Player player=new Player();
     ArrayList<Enemy> enemies=new ArrayList<>();
     ArrayList<Bullet> bullets=new ArrayList<>();
+    int[][] towerUpdateMoney;
     public GamePanel(CardSwitcher cardSwitcher){
         super(cardSwitcher);
         gameTimer = new javax.swing.Timer(16, e -> {
