@@ -76,8 +76,7 @@ public class Tower {
             }
         }
         // 发射子弹
-        System.out.println("Attack " + attacki);
-        bullets.add(new Bullet(x, y, enemiesSameHpMin.get(attacki), attackDamage, 20, getAttackType(),-1));
+        bullets.add(new Bullet(x, y, enemiesSameHpMin.get(attacki), attackDamage, 20, getAttackType(),100));
         pastAttack = 0;
     }
 }

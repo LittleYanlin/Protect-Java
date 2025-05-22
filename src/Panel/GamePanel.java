@@ -50,15 +50,15 @@ public class GamePanel extends Panel{
         else{
             g.drawImage(ImageGather.StartGame[MouseMoveToStartButton], 10, 700, 100, 90, this);//开始按钮
         }
-        for(int i=0;i<enemies.size();i++){//绘画小兵并绘画小兵血条
-            g.drawImage(ImageGather.Enemy[0],enemies.get(i).getX(),enemies.get(i).getY(),52,49,this);
-            int red=255*(1-enemies.get(i).getHP()/enemies.get(i).getMaxHP());
-            int green=255*(enemies.get(i).getHP()/enemies.get(i).getMaxHP());
-            //在血量多的时候显示绿色，血量少的时候显示红色
-            Color healthColor = new Color(red,green,0);
+        for(int i=0;i<enemies.size();i++){//遍历敌人
+            g.drawImage(ImageGather.Enemy[0],enemies.get(i).getX(),enemies.get(i).getY(),52,49,this);//绘画小兵
+            double percent=enemies.get(i).getHP()*1.0/enemies.get(i).getMaxHP();//计算血量百分比
+            int barWidth = (int)(50*percent);//计算血条长度
+            Color healthColor=new Color(255, 0, 0);//设置血条颜色
             g.setColor(healthColor);
-            g.fillRect(enemies.get(i).getX(), enemies.get(i).getY()+10, 50, 5);//绘画小兵血条
-
+            g.fillRect(enemies.get(i).getX(),enemies.get(i).getY()-10, barWidth, 5);//绘制血条
+            g.setColor(Color.BLACK);
+            g.drawRect(enemies.get(i).getX(),enemies.get(i).getY()-10, 50, 5);//绘制血条边框
         }
         for(int i=0;i<towers.length;i++){//绘画塔
             if(towers[i].getTowerType()==0){
@@ -114,10 +114,10 @@ public class GamePanel extends Panel{
         if(!isStart){//如果游戏没有开始就跳过
             return;
         }
-        if(pastSpawn<60){//设置每60ticks生成一个小兵
+        if(pastSpawn<60-level*10){//设置每60ticks生成一个小兵，随等级增加而减少
             pastSpawn++;
         }
-        if(enemynotSpawn>0&&pastSpawn==60){//开始生成小兵并重制生成时间
+        if(enemynotSpawn>0&&pastSpawn==60-level*10){//开始生成小兵并重制生成时间
             enemies.add(new Enemy(map[0][0],map[0][1],100));
             enemynotSpawn--;
             pastSpawn=0;
@@ -140,8 +140,9 @@ public class GamePanel extends Panel{
                 }
                 else if(bullets.get(i).getType()==2){//如果是法师塔的子弹，会造成范围伤害
                     for(int j=0;j<enemies.size();j++){
-                        if(Math.sqrt(Math.pow((bullets.get(i).getX()-enemies.get(j).getX()),2)+Math.pow((bullets.get(i).getY()-enemies.get(j).getY()),2))<=bullets.get(i).getRange()){
-                            enemies.get(i).getDamage(bullets.get(i).getDamage());
+                        double range=Math.sqrt(Math.pow((bullets.get(i).getX()-enemies.get(j).getX()),2)+Math.pow((bullets.get(i).getY()-enemies.get(j).getY()),2));
+                        if(range<=bullets.get(i).getRange()){
+                            enemies.get(j).getDamage((int)(bullets.get(i).getDamage()*(1-range/bullets.get(i).getRange())));//随着距离的增加，伤害减少
                         }
                     }
                 }
@@ -172,7 +173,7 @@ public class GamePanel extends Panel{
         }
     }
     void handleMouseClicked(MouseEvent e){
-        if (e.getX() > 0 && e.getX() < 100 && e.getY() > 0 && e.getY() < 100){//返回按钮点击
+        if (e.getX()>0&&e.getX()<100&&e.getY()>0&&e.getY()<100){//返回按钮点击
             super.cardSwitcher.switchCard("LOADING");
         }
         boolean clickBuilding=false;
@@ -233,6 +234,7 @@ public class GamePanel extends Panel{
         if(!isStart&&canStart&&e.getX()>10&&e.getX()<110&&e.getY()>700&&e.getY()<790){//开始按钮点击
             isStart=true;
             enemynotSpawn=enemyNum[level][0];
+            pastSpawn=0;
         }
     }
     void handleMouseMoved(MouseEvent e) {
