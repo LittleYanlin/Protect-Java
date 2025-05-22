@@ -1,6 +1,6 @@
 package Enemy;
 public class Enemy{
-    int HP;
+    int HP,maxHp;
     int Speed;
     int x,y;
     int point;
@@ -9,10 +9,11 @@ public class Enemy{
     int Endx,Endy;
     boolean Isturning=false;
     public int pastMove;
-    public Enemy(int x,int y){
+    public Enemy(int x,int y,int maxHp){
         this.x=x;
         this.y=y;
-        this.HP=100;
+        this.HP=maxHp;
+        this.maxHp=maxHp;
         this.Speed=3;
         this.IsDied=false;
         this.IsAchieve=false;
@@ -110,6 +111,7 @@ public class Enemy{
         this.HP=this.HP-Attack;
         this.IsDied=HP<=0;
     }
-
-
+    public int getMaxHP(){
+        return maxHp;
+    }
 }

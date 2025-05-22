@@ -9,6 +9,7 @@ import Tower.Tower;
 import Tower.ArrayTower;
 import Tower.MagicTower;
 import Game.CardSwitcher;
+import java.awt.Color;
 public class Mission1 extends GamePanel{
     boolean isBuilding=false;
     int m=0,buildingnum=-1,MouseMoveToStartButton=0;
@@ -45,8 +46,15 @@ public class Mission1 extends GamePanel{
         else{
             g.drawImage(ImageGather.StartGame[MouseMoveToStartButton], 10, 700, 100, 90, this);//开始按钮
         }
-        for(int i=0;i<enemies.size();i++){//绘画小兵
+        for(int i=0;i<enemies.size();i++){//绘画小兵并绘画小兵血条
             g.drawImage(ImageGather.Enemy[0],enemies.get(i).getX(),enemies.get(i).getY(),52,49,this);
+            int red=255*(1-enemies.get(i).getHP()/enemies.get(i).getMaxHP());
+            int green=255*(enemies.get(i).getHP()/enemies.get(i).getMaxHP());
+            //在血量多的时候显示绿色，血量少的时候显示红色
+            Color healthColor = new Color(red,green,0);
+            g.setColor(healthColor);
+            g.fillRect(enemies.get(i).getX(), enemies.get(i).getY()+10, 50, 5);//绘画小兵血条
+
         }
         for(int i=0;i<towers.length;i++){//绘画塔
             if(towers[i].getTowerType()==0){
@@ -106,7 +114,7 @@ public class Mission1 extends GamePanel{
             pastSpawn++;
         }
         if(enemynotSpawn>0&&pastSpawn==60){//开始生成小兵并重制生成时间
-            enemies.add(new Enemy(map[0][0],map[0][1]));
+            enemies.add(new Enemy(map[0][0],map[0][1],100));
             enemynotSpawn--;
             pastSpawn=0;
         }
