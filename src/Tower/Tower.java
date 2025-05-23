@@ -2,7 +2,10 @@ package Tower;
 import java.util.ArrayList;
 import Enemy.Enemy;
 import Bullet.Bullet;
-public class Tower {
+/*
+ * 所有的防御塔的超类
+ */
+public class Tower{
     int x,y,level=0,attackDealy,attackRange,attackDamage,pastAttack,javax,javay;
     public Tower(int x,int y){
         this.x=x;
@@ -40,7 +43,7 @@ public class Tower {
         return Math.sqrt(Math.pow((x-javax),2)+Math.pow((y-javay),2));
     }
     public void spawnBullet(ArrayList<Bullet> bullets, Enemy enemy){}
-    public void attack(ArrayList<Enemy> enemies, ArrayList<Bullet> bullets) {
+    public void attack(ArrayList<Enemy> enemies, ArrayList<Bullet> bullets){
         if (pastAttack < attackDealy) { // 如果攻击延迟没有到就跳过
             pastAttack++;
             return;
@@ -48,27 +51,27 @@ public class Tower {
         int minHP = Integer.MAX_VALUE;
         // 攻击逻辑：优先攻击范围内血量最少的小兵，如果有多个血量相同的小兵，则攻击离JAVA最近的小兵
         ArrayList<Enemy> enemiesSameHpMin = new ArrayList<>();
-        for (int i = 0; i < enemies.size(); i++) {
-            if (getRangeToEnemy(enemies.get(i)) <= attackRange/2) {
-                if (enemies.get(i).getHP() < minHP) {
-                    minHP = enemies.get(i).getHP();
+        for (int i=0;i<enemies.size();i++){
+            if (getRangeToEnemy(enemies.get(i))<=attackRange/2){
+                if (enemies.get(i).getHP()<minHP){
+                    minHP=enemies.get(i).getHP();
                     enemiesSameHpMin.clear();
                 }
-                if (enemies.get(i).getHP() == minHP) {
+                if (enemies.get(i).getHP()==minHP){
                     enemiesSameHpMin.add(enemies.get(i));
                 }
             }
         }
-        if (enemiesSameHpMin.size() == 0) {
+        if (enemiesSameHpMin.size()==0) {
             // 没有敌人在范围内，不攻击，也不重置pastAttack
             return;
         }
         // 选择离塔的小兵
         int attacki = 0;
-        if (enemiesSameHpMin.size() > 1) {
+        if (enemiesSameHpMin.size()>1) {
             for (int i = 1; i < enemiesSameHpMin.size(); i++) {
-                if (getRangeToJava(enemiesSameHpMin.get(i)) < getRangeToJava(enemiesSameHpMin.get(attacki))) {
-                    attacki = i;
+                if (getRangeToJava(enemiesSameHpMin.get(i))<getRangeToJava(enemiesSameHpMin.get(attacki))){
+                    attacki=i;
                 }
             }
         }

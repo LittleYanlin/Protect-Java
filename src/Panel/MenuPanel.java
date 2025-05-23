@@ -3,6 +3,10 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import Player.ImageGather;
 import Game.CardSwitcher;
+/*
+ * 菜单面板类
+ * 用于显示选择关卡界面
+ */
 public class MenuPanel extends Panel{
     int m1=0,n=0,m2=0,m3=0;
     public MenuPanel(CardSwitcher cardSwitcher){

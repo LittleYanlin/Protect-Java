@@ -2,10 +2,15 @@ package Game;
 import javax.swing.*;
 import java.awt.*;
 import Panel.*;
+/*
+ * 主程序类
+ * 负责创建窗口和切换卡片
+ * 使用卡片布局
+ */
 public class App extends JFrame implements CardSwitcher {
     CardLayout cardLayout = new CardLayout();
     JPanel cardPanel = new JPanel(cardLayout);
-    public App() {
+    public App(){
         setTitle("保卫JAVA");
         setSize(1200, 840);//设置窗口大小
         setResizable(false);//设置窗口不可缩放
@@ -17,7 +22,7 @@ public class App extends JFrame implements CardSwitcher {
         cardLayout.show(cardPanel, "START");
     }
     public void switchCard(String cardName) {//设置回调函数
-        switch(cardName) {
+        switch(cardName){
             case "LOADING":
                 cardPanel.add(new MenuPanel(this), "LOADING");
                 break;
@@ -38,7 +43,7 @@ public class App extends JFrame implements CardSwitcher {
         cardPanel.remove(0);//移除上一个面板
         cardPanel.revalidate();//刷新面板
     }
-    public static void main(String[] args) {
+    public static void main(String[] args){
         App app = new App();
         app.setVisible(true);
     }

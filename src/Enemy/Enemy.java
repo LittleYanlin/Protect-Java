@@ -1,4 +1,8 @@
 package Enemy;
+/*
+ * Enemy类
+ * 所有敌人类的超类
+ */
 public class Enemy{
     int HP,maxHp;
     int Speed;

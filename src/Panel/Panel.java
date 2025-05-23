@@ -4,6 +4,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import javax.swing.JPanel;
 import Game.CardSwitcher;
+/*
+ * 所有窗口的超类，继承自JPanel
+ * 设置窗口的大小和定时器
+ * 同时添加鼠标点击和移动事件的监听器
+ */
 public class Panel extends JPanel{
     javax.swing.Timer gameTimer;
     CardSwitcher cardSwitcher;

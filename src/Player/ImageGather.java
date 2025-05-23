@@ -1,6 +1,9 @@
 package Player;
 import java.awt.Image;
 import java.awt.Toolkit;
+/*
+ * 所有图片的集合类，供其他类调用
+ */
 public class ImageGather {
     public static Image[] Background = new Image[]{
             Toolkit.getDefaultToolkit().getImage("./img/map1.png"),
@@ -43,7 +46,7 @@ public class ImageGather {
             Toolkit.getDefaultToolkit().getImage("./img/arrowTower31.png"),
             Toolkit.getDefaultToolkit().getImage("./img/arrowTower32.png"),
         };
-    public static Image[] MagicTower1 = new Image[]{//以下三个为法师塔的图标（暂用箭塔）
+    public static Image[] MagicTower1 = new Image[]{//以下三个为法师塔的图标
             Toolkit.getDefaultToolkit().getImage("./img/fireTower11.png"),
             Toolkit.getDefaultToolkit().getImage("./img/fireTower12.png"),
     };

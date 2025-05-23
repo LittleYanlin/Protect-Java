@@ -1,5 +1,10 @@
 package Bullet;
 import Enemy.*;
+/*
+ * Bullet类
+ * 表示子弹
+ * 属性：x,y坐标，目标敌人，伤害，速度，类型（1是箭塔子弹，2是法师塔子弹），范围（若是箭塔，则为-1）
+ */
 public class Bullet{
     int x,y;
     int damage;

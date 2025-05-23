@@ -13,6 +13,11 @@ import Player.Player;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Color;
+/*
+ * 游戏面板类
+ * 实现了游戏的底层逻辑
+ * 是所有关卡类的超类
+ */
 public class GamePanel extends Panel{
     boolean isBuilding=false,isStart=false,canStart=true;
     int m=0,buildingnum=-1,MouseMoveToStartButton=0;//m是鼠标移动到返回按钮
@@ -163,11 +168,21 @@ public class GamePanel extends Panel{
                 }
                 bullets.remove(i);
             }
-        }
-        for(int i=0;i<enemies.size();i++){//如果小兵血量为0则删除小兵并给玩家金钱
+        }        for(int i=0;i<enemies.size();i++){//如果小兵血量为0则删除小兵并给玩家金钱
             if(enemies.get(i).getHP()<=0){
+                int reward = 100; // 默认奖励
+                
+                if(enemies.get(i).getType() == 0) { // XiaoBing
+                    reward = 80;  // 小兵击杀奖励
+                } else if(enemies.get(i).getType() == 1) { // PaoChe
+                    reward = 120;  // 炮车击杀奖励
+                } else if(enemies.get(i).getType() == 2) { // Boss
+                    reward = 300;  // Boss击杀奖励
+                }
+                
+                player.setMoney(reward);
                 enemies.remove(i);
-                player.setMoney(100);
+                i--; // 修正索引，避免跳过下一个敌人
             }
         }
         if(enemies.size()==0&&enemiesNotSpawnSum()==0){//如果小兵全部被消灭则跳转到胜利界面

@@ -1,6 +1,9 @@
 package Panel;
 import Game.*;
 import Tower.Tower;
+/*
+ * 第二关，继承自游戏面板类
+ */
 public class Mission2 extends GamePanel{
     public Mission2(CardSwitcher cardSwitcher){
         super(cardSwitcher);
@@ -18,12 +21,12 @@ public class Mission2 extends GamePanel{
         map=new int[][]{//map中。右是1，下是2，左是3，上是4
             {-53,130,1},{22,130,2},{22,423,1},{240,423,4},{240,131,1},{425,131,2},{425,528,3},{329,528,2},{329,624,1},{726,624,4},{726,532,3},
             {633,532,4},{633,126,1},{838,126,2},{838,426,1},{1033,426,4},{1033,214,1},{1125,214,2},{1128,350,2}
-        };
-        enemyNum=new int[][]{
+        };        enemyNum=new int[][]{
             {5,0,0},{8,3,0},{20,10,2}
         };
         towerUpdateMoney=new int[][]{
-            {100,200,300},{100,200,300}
+            {150,300,500}, // 箭塔：建造150，升级到2级300，升级到3级500
+            {200,350,600}  // 魔法塔：建造200，升级到2级350，升级到3级600
         };
         MouseMoveToTower=new int[towers.length];
         MouseMoveToBuilding=new int[2];

@@ -2,6 +2,10 @@ package Panel;
 import Game.CardSwitcher;
 import Player.ImageGather;
 import java.awt.event.MouseEvent;
+/*
+ * 开始面板类
+ * 用于显示欢迎界面（保卫JAVA）
+ */
 public class StartPanel extends Panel{
     int m=0;
     public StartPanel(CardSwitcher cardSwitcher){
