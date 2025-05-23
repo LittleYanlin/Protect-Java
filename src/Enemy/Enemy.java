@@ -8,13 +8,12 @@ public class Enemy{
     boolean IsAchieve;
     int Endx,Endy;
     boolean Isturning=false;
-    public int pastMove;
+    int pastMove=0;
     public Enemy(int x,int y,int maxHp){
         this.x=x;
         this.y=y;
         this.HP=maxHp;
         this.maxHp=maxHp;
-        this.Speed=3;
         this.IsDied=false;
         this.IsAchieve=false;
         point=0;
@@ -41,9 +40,6 @@ public class Enemy{
         else{
             this.HP-=damage;
         }
-    }
-    public int getSpeed(){
-        return Speed;
     }
     public boolean LiveOrDied(boolean IsDied){
         return IsDied;
@@ -113,5 +109,8 @@ public class Enemy{
     }
     public int getMaxHP(){
         return maxHp;
+    }
+    public int getType(){
+        return -1;
     }
 }

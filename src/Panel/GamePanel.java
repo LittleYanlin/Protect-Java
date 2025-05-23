@@ -16,7 +16,8 @@ import java.awt.Color;
 public class GamePanel extends Panel{
     boolean isBuilding=false,isStart=false,canStart=true;
     int m=0,buildingnum=-1,MouseMoveToStartButton=0;//m是鼠标移动到返回按钮
-    int enemynotSpawn=0,pastSpawn=60;
+    int pastSpawn=60;
+    int[] enemynotSpawn;
     int level=0;
     Tower[] towers;
     int[][] map;
@@ -28,6 +29,7 @@ public class GamePanel extends Panel{
     int[] MouseMoveToTower;
     int[] MouseMoveToBuilding;
     int[][] towerUpdateMoney;
+    int missionNum;
     public GamePanel(CardSwitcher cardSwitcher){
         super(cardSwitcher);
         gameTimer = new javax.swing.Timer(16, e -> {
@@ -39,7 +41,7 @@ public class GamePanel extends Panel{
         super.paint(g);
         g.setFont(new java.awt.Font("微软雅黑", java.awt.Font.BOLD, 32)); //设置字体和字号
         g.setColor(java.awt.Color.WHITE); //设置文字的颜色
-        g.drawImage(ImageGather.Background[0], 0, 0, 1200, 800, this);//背景图
+        g.drawImage(ImageGather.Background[missionNum-1], 0, 0, 1200, 800, this);//背景图
         g.drawImage(ImageGather.Back[m],10, 10, 100, 100, this);//返回按钮
         g.drawString(String.valueOf(player.getMoney()),450,60);//金钱
         g.drawString(String.valueOf(player.getHP()),665,60);//血量
@@ -51,7 +53,7 @@ public class GamePanel extends Panel{
             g.drawImage(ImageGather.StartGame[MouseMoveToStartButton], 10, 700, 100, 90, this);//开始按钮
         }
         for(int i=0;i<enemies.size();i++){//遍历敌人
-            g.drawImage(ImageGather.Enemy[0],enemies.get(i).getX(),enemies.get(i).getY(),52,49,this);//绘画小兵
+            g.drawImage(ImageGather.Enemy[enemies.get(i).getType()],enemies.get(i).getX(),enemies.get(i).getY(),52,49,this);//绘画小兵
             double percent=enemies.get(i).getHP()*1.0/enemies.get(i).getMaxHP();//计算血量百分比
             int barWidth = (int)(50*percent);//计算血条长度
             Color healthColor=new Color(255, 0, 0);//设置血条颜色
@@ -75,7 +77,7 @@ public class GamePanel extends Panel{
                 else if(towers[i].getLevel()==3){
                     g.drawImage(ImageGather.ArrayTower3[MouseMoveToTower[i]], towers[i].getX(), towers[i].getY(), 127, 176, this);
                 }
-                if(isBuilding){
+                if(isBuilding&&buildingnum==i){
                     g2.setColor(new java.awt.Color(0, 128, 255, 80));
                     g2.fillOval(towers[i].getX()+64-towers[i].getAttackRange()/2,towers[i].getY()+88-towers[i].getAttackRange()/2,towers[i].getAttackRange(),towers[i].getAttackRange());   
                 }
@@ -90,7 +92,7 @@ public class GamePanel extends Panel{
                 else if(towers[i].getLevel()==3){
                     g.drawImage(ImageGather.MagicTower3[MouseMoveToTower[i]], towers[i].getX(), towers[i].getY(), 127, 176, this);
                 }
-                if(isBuilding){
+                if(isBuilding&&buildingnum==i){
                     Graphics2D g2 = (Graphics2D) g;
                     g2.setColor(new java.awt.Color(0, 128, 255, 80));
                     g2.fillOval(towers[i].getX()+64-towers[i].getAttackRange()/2,towers[i].getY()+88-towers[i].getAttackRange()/2,towers[i].getAttackRange(),towers[i].getAttackRange());
@@ -117,9 +119,22 @@ public class GamePanel extends Panel{
         if(pastSpawn<60-level*10){//设置每60ticks生成一个小兵，随等级增加而减少
             pastSpawn++;
         }
-        if(enemynotSpawn>0&&pastSpawn==60-level*10){//开始生成小兵并重制生成时间
-            enemies.add(new Enemy(map[0][0],map[0][1],100));
-            enemynotSpawn--;
+        if(enemiesNotSpawnSum()>enemynotSpawn[2]&&pastSpawn==60-level*10){//开始生成小兵并重制生成时间
+            if(enemynotSpawn[0]>0){
+                enemies.add(new XiaoBing(map[0][0],map[0][1],level));
+                enemynotSpawn[0]--;
+            }
+            if(enemynotSpawn[1]>0){
+                enemies.add(new PaoChe(map[0][0]-50,map[0][1],level));
+                enemynotSpawn[1]--;
+            }
+            pastSpawn=0;
+        }
+        else if(enemiesNotSpawnSum()<=enemynotSpawn[2]&&pastSpawn==60-level*10&&enemiesNotSpawnSum()>0){//在关卡的最后生成Boss
+            if(enemynotSpawn[2]>0){
+                enemies.add(new Boss(map[0][0]-100,map[0][1],level));
+                enemynotSpawn[2]--;
+            }
             pastSpawn=0;
         }
         for(int i=0;i<enemies.size();i++){//小兵移动，如果小兵到达JAVA则删除小兵并扣血
@@ -155,7 +170,7 @@ public class GamePanel extends Panel{
                 player.setMoney(100);
             }
         }
-        if(enemies.size()==0&&enemynotSpawn==0){//如果小兵全部被消灭则跳转到胜利界面
+        if(enemies.size()==0&&enemiesNotSpawnSum()==0){//如果小兵全部被消灭则跳转到胜利界面
             isStart=false;
             level++;
         }
@@ -184,7 +199,7 @@ public class GamePanel extends Panel{
                     return;
                 }
                 player.setMoney(-towerUpdateMoney[0][0]);
-                towers[buildingnum]=new ArrayTower(towers[buildingnum].getX()+30,towers[buildingnum].getY()-76,1007,218);
+                towers[buildingnum]=new ArrayTower(towers[buildingnum].getX(),towers[buildingnum].getY()-76);
                 towers[buildingnum].setLevel(1);
                 isBuilding=false;
             }
@@ -214,7 +229,7 @@ public class GamePanel extends Panel{
                     return;
                 }
                 player.setMoney(-towerUpdateMoney[1][0]);
-                towers[buildingnum]=new MagicTower(towers[buildingnum].getX()+30,towers[buildingnum].getY()-76);
+                towers[buildingnum]=new MagicTower(towers[buildingnum].getX(),towers[buildingnum].getY()-76);
                 towers[buildingnum].setLevel(1);
                 isBuilding=false;
             }
@@ -233,7 +248,9 @@ public class GamePanel extends Panel{
         }
         if(!isStart&&canStart&&e.getX()>10&&e.getX()<110&&e.getY()>700&&e.getY()<790){//开始按钮点击
             isStart=true;
-            enemynotSpawn=enemyNum[level][0];
+            for(int i=0;i<enemyNum.length;i++){
+                enemynotSpawn[i]=enemyNum[level][i];
+            }
             pastSpawn=0;
         }
     }
@@ -273,5 +290,12 @@ public class GamePanel extends Panel{
         else{
             MouseMoveToStartButton=0;
         }
+    }
+    public int enemiesNotSpawnSum(){
+        int sum=0;
+        for(int i=0;i<enemynotSpawn.length;i++){
+            sum+=enemynotSpawn[i];
+        }
+        return sum;
     }
 }

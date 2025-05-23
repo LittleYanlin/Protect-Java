@@ -3,7 +3,7 @@ public class Player{
     int money;
     int HP;
     public Player(){
-        money=300;
+        money=30000;
         HP=100;
     }
     public int getMoney(){

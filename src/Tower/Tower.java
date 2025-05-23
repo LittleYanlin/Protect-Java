@@ -22,11 +22,7 @@ public class Tower {
     public int getAttackType(){
         return -1;
     }
-    public void setLevel(int level){
-        this.level=level;
-        attackDamage=attackDamage+level*10;
-        attackDealy=attackDealy-level*5;
-    }
+    public void setLevel(int level){}
     public int getTowerType(){
         return 0;
     }
@@ -43,6 +39,7 @@ public class Tower {
     public double getRangeToJava(Enemy enemy){
         return Math.sqrt(Math.pow((x-javax),2)+Math.pow((y-javay),2));
     }
+    public void spawnBullet(ArrayList<Bullet> bullets, Enemy enemy){}
     public void attack(ArrayList<Enemy> enemies, ArrayList<Bullet> bullets) {
         if (pastAttack < attackDealy) { // 如果攻击延迟没有到就跳过
             pastAttack++;
@@ -76,7 +73,7 @@ public class Tower {
             }
         }
         // 发射子弹
-        bullets.add(new Bullet(x, y, enemiesSameHpMin.get(attacki), attackDamage, 20, getAttackType(),100));
+        spawnBullet(bullets, enemiesSameHpMin.get(attacki));
         pastAttack = 0;
     }
 }

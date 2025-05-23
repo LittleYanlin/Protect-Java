@@ -1,29 +1,32 @@
 package Panel;
-import java.awt.Graphics;
-import java.awt.event.MouseEvent;
-import Player.ImageGather;
-import Game.CardSwitcher;
+import Game.*;
+import Tower.Tower;
 public class Mission2 extends GamePanel{
-    int m=0;
     public Mission2(CardSwitcher cardSwitcher){
         super(cardSwitcher);
-    }
-    public void paint(Graphics g){
-        super.paint(g);
-        g.drawImage(ImageGather.Background[1], 0, 0, 1200, 800, this);
-        g.drawImage(ImageGather.Back[m], 10, 10, 100, 100, this);
-    }
-    void handleMouseClicked(MouseEvent e){
-        if (e.getX() > 0 && e.getX() < 100 && e.getY() > 0 && e.getY() < 100){
-            super.cardSwitcher.switchCard("LOADING");
-        }
-    }
-    void handleMouseMoved(MouseEvent e) {
-        if (e.getX()>0&&e.getX()<100&&e.getY()>0&&e.getY()<100){
-            m=1;
-        }
-        else{
-            m=0;
-        }
+        missionNum=2;
+        towers=new Tower[]{
+            new Tower(100, 180),
+            new Tower(100,580),
+            new Tower(310,320),
+            new Tower(490,520),
+            new Tower(490,240),
+            new Tower(700,320),
+            new Tower(900,580),
+            new Tower(900,210)
+        };
+        map=new int[][]{//map中。右是1，下是2，左是3，上是4
+            {-53,130,1},{22,130,2},{22,423,1},{240,423,4},{240,131,1},{425,131,2},{425,528,3},{329,528,2},{329,624,1},{726,624,4},{726,532,3},
+            {633,532,4},{633,126,1},{838,126,2},{838,426,1},{1033,426,4},{1033,214,1},{1125,214,2},{1128,350,2}
+        };
+        enemyNum=new int[][]{
+            {5,0,0},{8,3,0},{20,10,2}
+        };
+        towerUpdateMoney=new int[][]{
+            {100,200,300},{100,200,300}
+        };
+        MouseMoveToTower=new int[towers.length];
+        MouseMoveToBuilding=new int[2];
+        enemynotSpawn=new int[enemyNum.length];
     }
 }
