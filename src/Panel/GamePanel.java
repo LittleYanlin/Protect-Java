@@ -246,10 +246,10 @@ public class GamePanel extends Panel{
         }
         for(int i=0;i<towers.length;i++){//鼠标移动到塔上
             if (e.getX()>towers[i].getX()&&e.getX()<towers[i].getX()+127&&e.getY()>towers[i].getY()&&e.getY()<towers[i].getY()+(towers[i].getLevel()==0?100:176)){
-                MouseMoveToTower[0]=1;
+                MouseMoveToTower[i]=1;
             }
             else{
-                MouseMoveToTower[0]=0;
+                MouseMoveToTower[i]=0;
             }
         }
         //鼠标移动到建造按钮上
