@@ -37,7 +37,7 @@ public class GamePanel extends Panel{
     int missionNum;
     public GamePanel(CardSwitcher cardSwitcher){
         super(cardSwitcher);
-        gameTimer = new javax.swing.Timer(16, e -> {
+        gameTimer = new javax.swing.Timer(16,e->{//重写了计时器，因为在游戏面板里还需要更新游戏的方法
             updategame();
             repaint();
         });
@@ -170,14 +170,13 @@ public class GamePanel extends Panel{
             }
         }        for(int i=0;i<enemies.size();i++){//如果小兵血量为0则删除小兵并给玩家金钱
             if(enemies.get(i).getHP()<=0){
-                int reward = 100; // 默认奖励
-                
-                if(enemies.get(i).getType() == 0) { // XiaoBing
-                    reward = 80;  // 小兵击杀奖励
-                } else if(enemies.get(i).getType() == 1) { // PaoChe
-                    reward = 120;  // 炮车击杀奖励
-                } else if(enemies.get(i).getType() == 2) { // Boss
-                    reward = 300;  // Boss击杀奖励
+                int reward=100; // 默认奖励（如果出现未知bug）
+                if(enemies.get(i).getType()==0){//如果击杀的是小兵
+                    reward=80;//小兵击杀奖励
+                } else if(enemies.get(i).getType()==1){//如果击杀的是炮车
+                    reward=120;//炮车击杀奖励
+                } else if(enemies.get(i).getType()==2){//如果击杀的是Boss
+                    reward=300; //Boss击杀奖励
                 }
                 
                 player.setMoney(reward);
