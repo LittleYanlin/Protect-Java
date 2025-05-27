@@ -50,7 +50,7 @@ public class GamePanel extends Panel{
         g.drawImage(ImageGather.Back[m],10, 10, 100, 100, this);//返回按钮
         g.drawString(String.valueOf(player.getMoney()),450,60);//金钱
         g.drawString(String.valueOf(player.getHP()),665,60);//血量
-        g.drawString("关卡："+String.valueOf(level+1),880,60);//关卡
+        g.drawString("波次："+String.valueOf(level+1),880,60);//关卡
         if(isStart){
             g.drawImage(ImageGather.StartGame[2], 10, 700, 100, 90, this);//开始按钮
         }
@@ -249,7 +249,7 @@ public class GamePanel extends Panel{
             }
         }
         for(int i=0;i<towers.length;i++){//如果点击了塔的位置
-            if (e.getX()>towers[i].getX()&&e.getX()<towers[i].getX()+127&&e.getY()>towers[i].getY()&&e.getY()<towers[i].getY()+100){
+            if (e.getX()>towers[i].getX()&&e.getX()<towers[i].getX()+127&&e.getY()>towers[i].getY()&&e.getY()<towers[i].getY()+(towers[i].getLevel()==0?100:176)){
                 isBuilding=true;
                 buildingnum=i;
                 clickBuilding=true;

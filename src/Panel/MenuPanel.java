@@ -8,7 +8,7 @@ import Game.CardSwitcher;
  * 用于显示选择关卡界面
  */
 public class MenuPanel extends Panel{
-    int m1=0,n=0,m2=0,m3=0;
+    int m1=0,n=0,m2=0,m3=0,p=0;
     public MenuPanel(CardSwitcher cardSwitcher){
         super(cardSwitcher);
     }
@@ -19,6 +19,7 @@ public class MenuPanel extends Panel{
         g.drawImage(ImageGather.Mission[m1], 300, 510, 45, 75, this);//第一关按钮
         g.drawImage(ImageGather.Mission[m2], 450, 400, 45, 75, this);//第二关按钮
         g.drawImage(ImageGather.Mission[m3], 300, 317, 45, 75, this);//第三关按钮
+        g.drawImage(ImageGather.Introduction[p],1075,675,100,100,this);//说明书按钮
     }
     void handleMouseClicked(MouseEvent e){
         if (e.getX()>0&&e.getX()<100&&e.getY()>0&&e.getY()<100){//点击了返回按钮
@@ -32,6 +33,9 @@ public class MenuPanel extends Panel{
         }
         if (e.getX()>300&&e.getX()<345&&e.getY()>317&&e.getY()<392) {//点击了第三关按钮
             cardSwitcher.switchCard("GAME3");
+        }
+        if (e.getX()>1075&&e.getX()<1175&&e.getY()>675&&e.getY()<775) {//点击了说明书按钮
+            cardSwitcher.switchCard("INTRODUCTION");
         }
     }
     void handleMouseMoved(MouseEvent e){
@@ -58,6 +62,12 @@ public class MenuPanel extends Panel{
         }
         else{
             n=0;
+        }
+        if (e.getX()>1075&&e.getX()<1175&&e.getY()>675&&e.getY()<775){//鼠标移动到说明书按钮上
+            p=1;
+        }
+        else{
+            p=0;
         }
     }
 }

@@ -78,4 +78,9 @@ public class ImageGather {
     public static Image[] Levelup = new Image[]{
             Toolkit.getDefaultToolkit().getImage("./img/levelUpButtonOff160_1.png"),
     };
+    public static Image[] Introduction = new Image[]{
+            Toolkit.getDefaultToolkit().getImage("./img/back1.png"),//前两个为进入说明书界面图标，暂用返回图标
+            Toolkit.getDefaultToolkit().getImage("./img/back2.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/introduction.png"),
+    };
 }

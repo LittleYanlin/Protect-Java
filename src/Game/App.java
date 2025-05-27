@@ -38,6 +38,8 @@ public class App extends JFrame implements CardSwitcher {
             case "START":
                 cardPanel.add(new StartPanel(this), "START");
                 break;
+            case "INTRODUCTION":
+                cardPanel.add(new IntroductionPanel(this),"INTRODUCTION");
         }
         cardLayout.show(cardPanel, cardName);//显示回调函数要求的面板
         cardPanel.remove(0);//切换面板以后把上一个面板删除，位了节约资源·
