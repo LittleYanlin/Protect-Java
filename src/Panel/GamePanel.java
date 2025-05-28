@@ -262,7 +262,7 @@ public class GamePanel extends Panel{
         }
         if(!isStart&&canStart&&e.getX()>10&&e.getX()<110&&e.getY()>700&&e.getY()<790){//开始按钮点击
             isStart=true;
-            for(int i=0;i<enemyNum.length;i++){
+            for(int i=0;i<enemyNum[0].length;i++){
                 enemynotSpawn[i]=enemyNum[level][i];
             }
             pastSpawn=0;
