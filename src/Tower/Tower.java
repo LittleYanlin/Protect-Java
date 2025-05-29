@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import Enemy.Enemy;
 import Bullet.Bullet;
 /*
- * 所有的防御塔的超类
+ * 所有的防御塔的超类，同时也是防御塔没有建造的时候的实例
  */
 public class Tower{
     int x,y,level=0,attackDealy,attackRange,attackDamage,pastAttack,javax,javay;

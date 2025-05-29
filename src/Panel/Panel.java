@@ -14,7 +14,7 @@ public class Panel extends JPanel{
     CardSwitcher cardSwitcher;
     public Panel(CardSwitcher cardSwitcher){
         this.cardSwitcher = cardSwitcher;//设置回调函数
-        setSize(1200, 800);
+        setSize(1200,840);
         gameTimer = new javax.swing.Timer(16,e->{//设置定时器，每16毫秒触发一次，每秒大约62.5帧
             repaint();
         });
