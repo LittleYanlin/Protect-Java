@@ -20,7 +20,7 @@ import java.awt.Color;
  */
 public class GamePanel extends Panel{
     boolean isBuilding=false,isStart=false,canStart=true,isLocking=false,isAttacking=false,attack=false,lock=false;
-    int m=0,buildingnum=-1,MouseMoveToStartButton=0,MouseMoveToLock=0,MouseMoveToAttack=0;//m是鼠标移动到返回按钮
+    int m=0,buildingnum=-1,MouseMoveToStartButton=0,MouseMoveToLock=0,MouseMoveToAttack=0,MouseMoveToCancel=0;//m是鼠标移动到返回按钮
     int pastSpawn=60;
     int[] enemynotSpawn;
     int level=0;
@@ -52,8 +52,11 @@ public class GamePanel extends Panel{
             g.setColor(java.awt.Color.WHITE); //设置文字的颜色
             g.drawImage(ImageGather.Background[missionNum-1], 0, 0, 1200, 800, this);//背景图
             g.drawImage(ImageGather.Back[m],10, 10, 100, 100, this);//返回按钮
-            g.drawImage(ImageGather.LockButton[MouseMoveToLock],37,678,75,85,this);
-            g.drawImage(ImageGather.AttackButton[MouseMoveToAttack],120,678,75,85,this);
+            g.drawImage(ImageGather.LockButton[MouseMoveToLock],120,678,75,85,this);
+            g.drawImage(ImageGather.AttackButton[MouseMoveToAttack],200,678,75,85,this);
+            if(isAttacking||isLocking){
+                g.drawImage(ImageGather.x[MouseMoveToCancel],300,678,75,75,this);
+            }
             g.drawString(String.valueOf(player.getMoney()),450,60);//金钱
             g.drawString(String.valueOf(player.getHP()),665,60);//血量
             g.drawString("波次："+String.valueOf(level+1),880,60);//关卡
@@ -125,12 +128,12 @@ public class GamePanel extends Panel{
             if(isLocking){
                 Graphics2D g2=(Graphics2D) g;
                 g2.setColor(new java.awt.Color(0, 128, 255, 80));
-                g2.fillOval(mouseX, mouseY, lockButtonRange, lockButtonRange);
+                g2.fillOval(mouseX-lockButtonRange/2, mouseY-lockButtonRange/2, lockButtonRange, lockButtonRange);
             }
             if(isAttacking){
                 Graphics2D g2=(Graphics2D) g;
                 g2.setColor(new java.awt.Color(0, 128, 255, 80));
-                g2.fillOval(mouseX, mouseY, attackButtonRange, attackButtonRange);
+                g2.fillOval(mouseX-attackButtonRange/2, mouseY-attackButtonRange/2, attackButtonRange, attackButtonRange);
             }
 
         }
@@ -164,6 +167,20 @@ public class GamePanel extends Panel{
                 }
                 pastSpawn=0;
             }
+            if(attack&&player.getMoney()<2000){
+                JOptionPane.showMessageDialog(null, "你没有足够的金钱！发动该技能需要2000金币", "提示", JOptionPane.INFORMATION_MESSAGE);//弹出钱不够的提示框
+                attack=false;
+            }
+            if(lock&&player.getMoney()<1000){
+                JOptionPane.showMessageDialog(null, "你没有足够的金钱！发动该技能需要1000金币", "提示", JOptionPane.INFORMATION_MESSAGE);//弹出钱不够的提示框
+                lock=false;
+            }
+            if(attack){
+                player.setMoney(-2000);
+            }
+            if(lock){
+                player.setMoney(-1000);
+            }
             for(int i=0;i<enemies.size();i++){//小兵移动，如果小兵到达JAVA则删除小兵并扣血
                 if(attack){
                     double r=Math.sqrt(Math.pow(enemies.get(i).getX()-mouseX,2)+Math.pow(enemies.get(i).getY()-mouseY,2));
@@ -182,8 +199,8 @@ public class GamePanel extends Panel{
                     player.getDamage(10);
                 }
             }
-            if(attack){attack=false;}//只完成一次范围攻击
-            if(lock){lock=false;}//只完成一次冻结
+            attack=false;
+            lock=false;
             for(int i=0;i<towers.length;i++){//如果塔已经建造了就攻击
                 if(towers[i].getLevel()!=0){
                     towers[i].attack(enemies,bullets);
@@ -249,7 +266,7 @@ public class GamePanel extends Panel{
         if(isBuilding&&e.getX()>towers[buildingnum].getX()+130&&e.getX()<towers[buildingnum].getX()+185&&e.getY()>towers[buildingnum].getY()+30&&e.getY()<towers[buildingnum].getY()+110){//点击了箭塔建造按钮，升级按钮也在这里
             if (towers[buildingnum].getLevel()==0){
                 if(player.getMoney()<towerUpdateMoney[0][0]){
-                    JOptionPane.showMessageDialog(null, "你没有足够的金钱！", "提示", JOptionPane.INFORMATION_MESSAGE);//弹出钱不够的提示框
+                    JOptionPane.showMessageDialog(null, "你没有足够的金钱！该操作需要"+towerUpdateMoney[0][0]+"金币", "提示", JOptionPane.INFORMATION_MESSAGE);//弹出钱不够的提示框
                     return;
                 }
                 player.setMoney(-towerUpdateMoney[0][0]);
@@ -259,7 +276,7 @@ public class GamePanel extends Panel{
             }
             else if(towers[buildingnum].getLevel()==1){
                 if(player.getMoney()<towerUpdateMoney[towers[buildingnum].getTowerType()-1][1]){
-                    JOptionPane.showMessageDialog(null, "你没有足够的金钱！", "提示", JOptionPane.INFORMATION_MESSAGE);//弹出钱不够的提示框
+                    JOptionPane.showMessageDialog(null, "你没有足够的金钱！该操作需要"+towerUpdateMoney[towers[buildingnum].getTowerType()-1][1]+"金币", "提示", JOptionPane.INFORMATION_MESSAGE);//弹出钱不够的提示框
                     return;
                 }
                 player.setMoney(-towerUpdateMoney[towers[buildingnum].getTowerType()-1][1]);
@@ -268,7 +285,7 @@ public class GamePanel extends Panel{
             }
             else if(towers[buildingnum].getLevel()==2){
                 if(player.getMoney()<towerUpdateMoney[towers[buildingnum].getTowerType()-1][2]){
-                    JOptionPane.showMessageDialog(null, "你没有足够的金钱！", "提示", JOptionPane.INFORMATION_MESSAGE);//弹出钱不够的提示框
+                    JOptionPane.showMessageDialog(null, "你没有足够的金钱！该操作需要"+towerUpdateMoney[towers[buildingnum].getTowerType()-1][2]+"金币", "提示", JOptionPane.INFORMATION_MESSAGE);//弹出钱不够的提示框
                     return;
                 }
                 player.setMoney(-towerUpdateMoney[towers[buildingnum].getTowerType()-1][2]);
@@ -279,7 +296,7 @@ public class GamePanel extends Panel{
         if(isBuilding&&e.getX()>towers[buildingnum].getX()+190&&e.getX()<towers[buildingnum].getX()+245&&e.getY()>towers[buildingnum].getY()+30&&e.getY()<towers[buildingnum].getY()+110){//点击了法师塔建造按钮
             if (towers[buildingnum].getLevel()==0){
                 if(player.getMoney()<towerUpdateMoney[1][0]){
-                    JOptionPane.showMessageDialog(null, "你没有足够的金钱！", "提示", JOptionPane.INFORMATION_MESSAGE);//弹出钱不够的提示框
+                    JOptionPane.showMessageDialog(null, "你没有足够的金钱！该操作需要"+towerUpdateMoney[1][0]+"金币", "提示", JOptionPane.INFORMATION_MESSAGE);//弹出钱不够的提示框
                     return;
                 }
                 player.setMoney(-towerUpdateMoney[1][0]);
@@ -307,19 +324,19 @@ public class GamePanel extends Panel{
             }
             pastSpawn=0;
         }
-        if(isAttacking&&isStart){//这里要加上取消按钮的坐标（不在）
+        if(isAttacking&&isStart&&!(e.getX()>300&&e.getX()<375&&e.getY()>678&&e.getY()<753)){//这里要加上取消按钮的坐标（不在）
             attack=true;
         }
-        if(isLocking&&isStart){//这里也要加上取消按钮的坐标（不在）
+        if(isLocking&&isStart&&!(e.getX()>300&&e.getX()<375&&e.getY()>678&&e.getY()<753)){//这里也要加上取消按钮的坐标（不在）
             lock=true;
         }
-        if(!isAttacking&&isStart){//这里要加上点击范围攻击按钮
+        if(!isAttacking&&isStart&&e.getX()>200&&e.getX()<275&&e.getY()>678&&e.getY()<763){//这里要加上点击范围攻击按钮
             isAttacking=true;
         }
         else{
             isAttacking=false;
         }
-        if(!isLocking&&isStart){//这里要加上点击冰冻按钮的坐标
+        if(!isLocking&&isStart&&e.getX()>120&&e.getX()<195&&e.getY()>678&&e.getY()<763){//这里要加上点击冰冻按钮的坐标
             isLocking=true;
         }
         else{
@@ -363,6 +380,27 @@ public class GamePanel extends Panel{
         }
         else{
             MouseMoveToStartButton=0;
+        }
+        //鼠标移动到冰冻按钮上
+        if(e.getX()>120&&e.getX()<195&&e.getY()>678&&e.getY()<763){//锁定按钮
+            MouseMoveToLock=1;
+        }
+        else{
+            MouseMoveToLock=0;
+        }
+        //鼠标移动到攻击按钮上
+        if(e.getX()>200&&e.getX()<275&&e.getY()>678&&e.getY()<763){//攻击按钮
+            MouseMoveToAttack=1;
+        }
+        else{
+            MouseMoveToAttack=0;
+        }
+        //鼠标移动到取消按钮上
+        if(e.getX()>300&&e.getX()<375&&e.getY()>678&&e.getY()<753){//取消按钮
+            MouseMoveToCancel=1;
+        }
+        else{
+            MouseMoveToCancel=0;
         }
     }
     public int enemiesNotSpawnSum(){

@@ -22,7 +22,7 @@ public class ArrayTower extends Tower {
         return 1;
     }
     public void spawnBullet(ArrayList<Bullet> bullets, Enemy enemy){
-        Bullet bullet=new Bullet(x, y, enemy, attackDamage,20,getAttackType(),-1);
+        Bullet bullet=new Bullet(x+63, y, enemy, attackDamage,20,getAttackType(),-1);
         bullets.add(bullet);
     }
     public void setLevel(int level){
