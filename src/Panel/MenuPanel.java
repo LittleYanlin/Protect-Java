@@ -18,7 +18,7 @@ public class MenuPanel extends Panel{
         g.drawImage(ImageGather.Back[n], 10, 10, 100, 100, this);//返回按钮
         g.drawImage(ImageGather.Mission[m1], 300, 510, 45, 75, this);//第一关按钮
         g.drawImage(ImageGather.Mission[m2], 450, 400, 45, 75, this);//第二关按钮
-        g.drawImage(ImageGather.Mission[m3], 300, 317, 45, 75, this);//第三关按钮
+        //g.drawImage(ImageGather.Mission[m3], 300, 317, 45, 75, this);//第三关按钮
         g.drawImage(ImageGather.Introduction[p],1025,675,100,100,this);//说明书按钮
     }
     void handleMouseClicked(MouseEvent e){

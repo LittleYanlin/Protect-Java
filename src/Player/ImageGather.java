@@ -27,8 +27,8 @@ public class ImageGather {
             Toolkit.getDefaultToolkit().getImage("./img/buildArrowTower2.png"),
     };
     public static Image[] BuildMagicTower=new Image[]{
-            Toolkit.getDefaultToolkit().getImage("./img/buildArrowTower2.png"),//法师塔建造图标（暂用箭塔）
-            Toolkit.getDefaultToolkit().getImage("./img/buildArrowTower1.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/buildMagicTower1.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/buildMagicTower2.png"),
     };
     public static Image[] NullTower = new Image[]{
             Toolkit.getDefaultToolkit().getImage("./img/nullTower1.png"),
@@ -71,12 +71,16 @@ public class ImageGather {
             Toolkit.getDefaultToolkit().getImage("./img/Xiaobing.png"),
             Toolkit.getDefaultToolkit().getImage("./img/GunCar.png"),
             Toolkit.getDefaultToolkit().getImage("./img/Boss.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/FrozenXiaobing.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/FrozenGunCar.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/FrozenBoss.png"),
     };
     public static Image[] Bullet = new Image[]{
             Toolkit.getDefaultToolkit().getImage("./img/bullet.png"),
     };
     public static Image[] Levelup = new Image[]{
             Toolkit.getDefaultToolkit().getImage("./img/levelUpButtonOff160_1.png"),
+            Toolkit.getDefaultToolkit().getImage("./img/levelUpButtonOff160_2.png"),
     };
     public static Image[] Introduction = new Image[]{
             Toolkit.getDefaultToolkit().getImage("./img/IntroductionButton1.png"),

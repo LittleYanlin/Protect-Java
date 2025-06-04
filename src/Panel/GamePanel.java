@@ -20,7 +20,7 @@ import java.awt.Color;
  */
 public class GamePanel extends Panel{
     boolean isBuilding=false,isStart=false,canStart=true,isLocking=false,isAttacking=false,attack=false,lock=false;
-    int m=0,buildingnum=-1,MouseMoveToStartButton=0,MouseMoveToLock=0,MouseMoveToAttack=0,MouseMoveToCancel=0;//m是鼠标移动到返回按钮
+    int m=0,buildingnum=-1,MouseMoveToStartButton=0,MouseMoveToLock=0,MouseMoveToAttack=0,MouseMoveToCancel=0,MouseMoveToLevelUpButton=0;//m是鼠标移动到返回按钮
     int pastSpawn=60;
     int[] enemynotSpawn;
     int level=0;
@@ -67,7 +67,12 @@ public class GamePanel extends Panel{
                 g.drawImage(ImageGather.StartGame[MouseMoveToStartButton], 10, 700, 100, 90, this);//开始按钮
             }
             for(int i=0;i<enemies.size();i++){//遍历敌人
-                g.drawImage(ImageGather.Enemy[enemies.get(i).getType()],enemies.get(i).getX(),enemies.get(i).getY(),52,49,this);//绘画小兵
+                if(!enemies.get(i).getLock()){//绘画小兵
+                    g.drawImage(ImageGather.Enemy[enemies.get(i).getType()],enemies.get(i).getX(),enemies.get(i).getY(),52,49,this);
+                }
+                else{
+                    g.drawImage(ImageGather.Enemy[enemies.get(i).getType()+3],enemies.get(i).getX(),enemies.get(i).getY(),52,49,this);
+                }
                 double percent=enemies.get(i).getHP()*1.0/enemies.get(i).getMaxHP();//计算血量百分比
                 int barWidth = (int)(50*percent);//计算血条长度
                 Color healthColor=new Color(255, 0, 0);//设置血条颜色
@@ -119,7 +124,12 @@ public class GamePanel extends Panel{
                     g.drawImage(ImageGather.BuildMagicTower[MouseMoveToBuilding[1]], towers[buildingnum].getX()+190, towers[buildingnum].getY()+30, 55, 80, this);
                 }
                 else if(towers[buildingnum].getLevel()==1||towers[buildingnum].getLevel()==2){
-                    g.drawImage(ImageGather.Levelup[0],towers[buildingnum].getX()+130,towers[buildingnum].getY()+30, 55, 80, this);
+                    if(MouseMoveToLevelUpButton==0){
+                        g.drawImage(ImageGather.Levelup[0],towers[buildingnum].getX()+130,towers[buildingnum].getY()+30, 55, 80, this);
+                    }
+                    else{
+                        g.drawImage(ImageGather.Levelup[1],towers[buildingnum].getX()+130,towers[buildingnum].getY()+30, 55, 80, this);
+                    }
                 }
             }
             for(int i=0;i<bullets.size();i++){//绘画子弹
@@ -373,6 +383,12 @@ public class GamePanel extends Panel{
         }
         else{
             MouseMoveToBuilding[1]=0;
+        }
+        if (isBuilding&&e.getX()>towers[buildingnum].getX()+130&&e.getX()<towers[buildingnum].getX()+185&&e.getY()>towers[buildingnum].getY()+30&&e.getY()<towers[buildingnum].getY()+110){//升级按钮
+            MouseMoveToLevelUpButton=1;
+        }
+        else{
+            MouseMoveToLevelUpButton=0;
         }
         //鼠标移动到开始按钮上
         if(e.getX()>10&&e.getX()<110&&e.getY()>700&&e.getY()<790){//开始按钮

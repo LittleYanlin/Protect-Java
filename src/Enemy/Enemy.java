@@ -24,6 +24,9 @@ public class Enemy{
         point=0;
         lockSec=0;
     }
+    public boolean getLock(){
+        return isLock;
+    }
     public int getX(){
         return x;
     }
