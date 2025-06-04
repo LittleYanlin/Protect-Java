@@ -22,28 +22,33 @@ public class App extends JFrame implements CardSwitcher {
         cardLayout.show(cardPanel, "START");
     }
     public void switchCard(String cardName) {//设置回调函数
-        switch(cardName){
-            case "LOADING":
-                cardPanel.add(new MenuPanel(this), "LOADING");
-                break;
-            case "GAME1":
-                cardPanel.add(new Mission1(this), "GAME1");
-                break;
-            case "GAME2":
-                cardPanel.add(new Mission2(this), "GAME2");
-                break;
-            case "GAME3":
-                cardPanel.add(new Mission3(this), "GAME3");
-                break;
-            case "START":
-                cardPanel.add(new StartPanel(this), "START");
-                break;
-            case "INTRODUCTION":
-                cardPanel.add(new IntroductionPanel(this),"INTRODUCTION");
+        try{
+            switch(cardName){
+                case "LOADING":
+                    cardPanel.add(new MenuPanel(this), "LOADING");
+                    break;
+                case "GAME1":
+                    cardPanel.add(new Mission1(this), "GAME1");
+                    break;
+                case "GAME2":
+                    cardPanel.add(new Mission2(this), "GAME2");
+                    break;
+                case "GAME3":
+                    cardPanel.add(new Mission3(this), "GAME3");
+                    break;
+                case "START":
+                    cardPanel.add(new StartPanel(this), "START");
+                    break;
+                case "INTRODUCTION":
+                    cardPanel.add(new IntroductionPanel(this),"INTRODUCTION");
+            }
+            cardLayout.show(cardPanel, cardName);//显示回调函数要求的面板
+            cardPanel.remove(0);//切换面板以后把上一个面板删除，位了节约资源·
+            cardPanel.revalidate(); //刷新面板（不刷新好像会有bug）
         }
-        cardLayout.show(cardPanel, cardName);//显示回调函数要求的面板
-        cardPanel.remove(0);//切换面板以后把上一个面板删除，位了节约资源·
-        cardPanel.revalidate(); //刷新面板（不刷新好像会有bug）
+        catch(Exception e){
+            JOptionPane.showConfirmDialog(null,"切换卡片时出现错误！错误详情："+e.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
+        }
     }
     public static void main(String[] args){
         App app = new App();

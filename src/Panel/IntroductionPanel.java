@@ -1,10 +1,10 @@
 package Panel;
-
 import java.awt.event.MouseEvent;
-
 import Game.CardSwitcher;
 import Player.ImageGather;
-
+/*
+ * 说明书类，显示游戏说明
+ */
 public class IntroductionPanel extends Panel{
     int n=0;
     public IntroductionPanel(CardSwitcher cardSwitcher){
