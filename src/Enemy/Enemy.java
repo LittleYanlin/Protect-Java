@@ -11,8 +11,9 @@ public class Enemy{
     boolean IsDied;
     boolean IsAchieve;
     int Endx,Endy;
-    boolean Isturning=false;
+    boolean Isturning=false,isLock=false;
     int pastMove=0;
+    int lockSec=0;
     public Enemy(int x,int y,int maxHp){
         this.x=x;
         this.y=y;
@@ -21,6 +22,7 @@ public class Enemy{
         this.IsDied=false;
         this.IsAchieve=false;
         point=0;
+        lockSec=0;
     }
     public int getX(){
         return x;
@@ -58,6 +60,13 @@ public class Enemy{
         return pastMove==2;
     }
     public boolean move(int direction,int endpoint,int maplength){
+        if(lockSec>0){
+            lockSec--;
+            return true;
+        }
+        else if(lockSec==0){
+            isLock=false;
+        }
         pastMove++;
         if(pastMove!=2){
             return true;
@@ -116,5 +125,9 @@ public class Enemy{
     }
     public int getType(){
         return -1;
+    }
+    public void setLock(int s){
+        isLock=true;
+        lockSec=s;
     }
 }

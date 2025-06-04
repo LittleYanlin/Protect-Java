@@ -83,4 +83,12 @@ public class ImageGather {
             Toolkit.getDefaultToolkit().getImage("./img/IntroductionButton2.png"),
             Toolkit.getDefaultToolkit().getImage("./img/introduction.png"),
     };
+    public static Image[] AttackButton = new Image[]{
+        Toolkit.getDefaultToolkit().getImage("./img/attack1.png"),
+        Toolkit.getDefaultToolkit().getImage("./img/attack2.png"),
+    };
+    public static Image[] LockButton = new Image[]{
+        Toolkit.getDefaultToolkit().getImage("./img/lock1.png"),
+        Toolkit.getDefaultToolkit().getImage("./img/lock2.png"),
+    };
 }

@@ -19,8 +19,8 @@ import java.awt.Color;
  * 是所有关卡类的超类
  */
 public class GamePanel extends Panel{
-    boolean isBuilding=false,isStart=false,canStart=true;
-    int m=0,buildingnum=-1,MouseMoveToStartButton=0;//m是鼠标移动到返回按钮
+    boolean isBuilding=false,isStart=false,canStart=true,isLocking=false,isAttacking=false,attack=false,lock=false;
+    int m=0,buildingnum=-1,MouseMoveToStartButton=0,MouseMoveToLock=0,MouseMoveToAttack=0;//m是鼠标移动到返回按钮
     int pastSpawn=60;
     int[] enemynotSpawn;
     int level=0;
@@ -35,6 +35,9 @@ public class GamePanel extends Panel{
     int[] MouseMoveToBuilding;
     int[][] towerUpdateMoney;
     int missionNum;
+    int attackButtonRange=120;
+    int lockButtonRange=100;
+    int mouseX=0,mouseY=0;
     public GamePanel(CardSwitcher cardSwitcher){
         super(cardSwitcher);
         gameTimer = new javax.swing.Timer(16,e->{//重写了计时器，因为在游戏面板里还需要更新游戏的方法
@@ -49,6 +52,8 @@ public class GamePanel extends Panel{
             g.setColor(java.awt.Color.WHITE); //设置文字的颜色
             g.drawImage(ImageGather.Background[missionNum-1], 0, 0, 1200, 800, this);//背景图
             g.drawImage(ImageGather.Back[m],10, 10, 100, 100, this);//返回按钮
+            g.drawImage(ImageGather.LockButton[MouseMoveToLock],37,678,75,85,this);
+            g.drawImage(ImageGather.AttackButton[MouseMoveToAttack],120,678,75,85,this);
             g.drawString(String.valueOf(player.getMoney()),450,60);//金钱
             g.drawString(String.valueOf(player.getHP()),665,60);//血量
             g.drawString("波次："+String.valueOf(level+1),880,60);//关卡
@@ -117,6 +122,17 @@ public class GamePanel extends Panel{
             for(int i=0;i<bullets.size();i++){//绘画子弹
                 g.drawImage(ImageGather.Bullet[0],bullets.get(i).getX(),bullets.get(i).getY(),8,8,this);
             }
+            if(isLocking){
+                Graphics2D g2=(Graphics2D) g;
+                g2.setColor(new java.awt.Color(0, 128, 255, 80));
+                g2.fillOval(mouseX, mouseY, lockButtonRange, lockButtonRange);
+            }
+            if(isAttacking){
+                Graphics2D g2=(Graphics2D) g;
+                g2.setColor(new java.awt.Color(0, 128, 255, 80));
+                g2.fillOval(mouseX, mouseY, attackButtonRange, attackButtonRange);
+            }
+
         }
         catch(Exception e){
             JOptionPane.showConfirmDialog(null,"绘画游戏画面时出现错误！错误详情："+e.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
@@ -149,11 +165,25 @@ public class GamePanel extends Panel{
                 pastSpawn=0;
             }
             for(int i=0;i<enemies.size();i++){//小兵移动，如果小兵到达JAVA则删除小兵并扣血
+                if(attack){
+                    double r=Math.sqrt(Math.pow(enemies.get(i).getX()-mouseX,2)+Math.pow(enemies.get(i).getY()-mouseY,2));
+                        if(r<attackButtonRange){
+                            enemies.get(i).getDamage(1000);
+                        }
+                }
+                if(lock){
+                    double r=Math.sqrt(Math.pow(enemies.get(i).getX()-mouseX,2)+Math.pow(enemies.get(i).getY()-mouseY,2));
+                        if(r<attackButtonRange){
+                            enemies.get(i).setLock(120);
+                        }
+                }
                 if(!enemies.get(i).move(map[enemies.get(i).getPoint()][2],map[enemies.get(i).getPoint()+1][map[enemies.get(i).getPoint()][2]==1||map[enemies.get(i).getPoint()][2]==3?0:1],map.length)){
                     enemies.remove(i);
                     player.getDamage(10);
                 }
             }
+            if(attack){attack=false;}//只完成一次范围攻击
+            if(lock){lock=false;}//只完成一次冻结
             for(int i=0;i<towers.length;i++){//如果塔已经建造了就攻击
                 if(towers[i].getLevel()!=0){
                     towers[i].attack(enemies,bullets);
@@ -174,7 +204,8 @@ public class GamePanel extends Panel{
                     }
                     bullets.remove(i);
                 }
-            }        for(int i=0;i<enemies.size();i++){//如果小兵血量为0则删除小兵并给玩家金钱
+            }
+            for(int i=0;i<enemies.size();i++){//如果小兵血量为0则删除小兵并给玩家金钱
                 if(enemies.get(i).getHP()<=0){
                     int reward=100; // 默认奖励（如果出现未知bug）
                     if(enemies.get(i).getType()==0){//如果击杀的是小兵
@@ -184,7 +215,6 @@ public class GamePanel extends Panel{
                     } else if(enemies.get(i).getType()==2){//如果击杀的是Boss
                         reward=300; //Boss击杀奖励
                     }
-                    
                     player.setMoney(reward);
                     enemies.remove(i);
                     i--; // 修正索引，避免跳过下一个敌人
@@ -277,8 +307,28 @@ public class GamePanel extends Panel{
             }
             pastSpawn=0;
         }
+        if(isAttacking&&isStart){//这里要加上取消按钮的坐标（不在）
+            attack=true;
+        }
+        if(isLocking&&isStart){//这里也要加上取消按钮的坐标（不在）
+            lock=true;
+        }
+        if(!isAttacking&&isStart){//这里要加上点击范围攻击按钮
+            isAttacking=true;
+        }
+        else{
+            isAttacking=false;
+        }
+        if(!isLocking&&isStart){//这里要加上点击冰冻按钮的坐标
+            isLocking=true;
+        }
+        else{
+            isLocking=false;
+        }
     }
     void handleMouseMoved(MouseEvent e) {
+        mouseX=e.getX();
+        mouseY=e.getY();
         if (e.getX()>0&&e.getX()<100&&e.getY()>0&&e.getY()<100){
             m=1;
         }
