@@ -22,7 +22,7 @@ public class MagicTower extends Tower{
         return 2;
     }
     public void spawnBullet(ArrayList<Bullet> bullets, Enemy enemy) {
-        Bullet bullet=new Bullet(x,y,enemy,attackDamage,10,getAttackType(),80+level*20);
+        Bullet bullet=new Bullet(x+63,y,enemy,attackDamage,10,getAttackType(),80+level*20);
         bullets.add(bullet);
     }
     public void setLevel(int level){
