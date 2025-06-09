@@ -1,6 +1,9 @@
 package Panel;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+
+import javax.swing.JOptionPane;
+
 import Player.ImageGather;
 import Game.CardSwitcher;
 /*
@@ -18,7 +21,7 @@ public class MenuPanel extends Panel{
         g.drawImage(ImageGather.Back[n], 10, 10, 100, 100, this);//返回按钮
         g.drawImage(ImageGather.Mission[m1], 300, 510, 45, 75, this);//第一关按钮
         g.drawImage(ImageGather.Mission[m2], 450, 400, 45, 75, this);//第二关按钮
-        //g.drawImage(ImageGather.Mission[m3], 300, 317, 45, 75, this);//第三关按钮
+        g.drawImage(ImageGather.Mission[m3], 300, 317, 45, 75, this);//第三关按钮
         g.drawImage(ImageGather.Introduction[p],1025,675,100,100,this);//说明书按钮
     }
     void handleMouseClicked(MouseEvent e){
@@ -32,7 +35,8 @@ public class MenuPanel extends Panel{
             cardSwitcher.switchCard("GAME2");
         }
         if (e.getX()>300&&e.getX()<345&&e.getY()>317&&e.getY()<392) {//点击了第三关按钮
-            cardSwitcher.switchCard("GAME3");
+            //cardSwitcher.switchCard("GAME3");
+            JOptionPane.showMessageDialog(null,"敬请期待！");
         }
         if (e.getX()>1025&&e.getX()<1125&&e.getY()>675&&e.getY()<775) {//点击了说明书按钮
             cardSwitcher.switchCard("INTRODUCTION");
