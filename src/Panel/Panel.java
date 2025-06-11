@@ -27,6 +27,9 @@ public class Panel extends JPanel{
             public void mouseMoved(MouseEvent e){
                 handleMouseMoved(e);
             }
+            public void mouseDragged(MouseEvent e){
+                handleMouseClicked(e);
+            }
         });
         addComponentListener(new java.awt.event.ComponentAdapter(){//添加组件监听器（不在顶层的面板计时器不运作，节约资源）
             public void componentShown(java.awt.event.ComponentEvent e){// 面板显示时启动定时器
