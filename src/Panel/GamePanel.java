@@ -249,17 +249,20 @@ public class GamePanel extends Panel{
             }
             if(enemies.size()==0&&enemiesNotSpawnSum()==0){//如果小兵全部被消灭则跳转到胜利界面
                 isStart=false;
+                bullets.clear();
                 level++;
             }
             if(player.getHP()<=0){//如果玩家血量为0则跳转到失败界面
                 canStart=false;
                 isStart=false;
+                bullets.clear();
                 JOptionPane.showMessageDialog(null, "你失败了！", "提示", JOptionPane.INFORMATION_MESSAGE);//弹出失败的提示框
                 return;
             }
             if(level>=enemyNum.length){
                 isStart=false;
                 canStart=false;
+                bullets.clear();
                 JOptionPane.showMessageDialog(null, "你胜利了！", "提示", JOptionPane.INFORMATION_MESSAGE);//弹出胜利的提示
                 return;
             }
